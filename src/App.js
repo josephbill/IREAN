@@ -12,7 +12,9 @@ import ScrollToTop from './components/scroll-to-top';
 
 export default function App() {
   return (
+    // helmet provider for SEO , //also to cover dynamic imports //also allows us to change meta data of the page.
     <HelmetProvider>
+      {/* browser router for switching views */}
       <BrowserRouter>
         <ThemeProvider>
           <ScrollToTop />

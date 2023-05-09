@@ -8,12 +8,17 @@ import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
+import SignUpage from './pages/SignUpage';
 import DashboardAppPage from './pages/DashboardAppPage';
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
   const routes = useRoutes([
+    {
+      path: 'login',
+      element: <LoginPage />,
+    },
     {
       path: '/dashboard',
       element: <DashboardLayout />,
@@ -25,14 +30,15 @@ export default function Router() {
         { path: 'blog', element: <BlogPage /> },
       ],
     },
+   
     {
-      path: 'login',
-      element: <LoginPage />,
+      path: 'signup',
+      element: <SignUpage />,
     },
     {
       element: <SimpleLayout />,
       children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
+        { element: <Navigate to="/login" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],

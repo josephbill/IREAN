@@ -14,8 +14,8 @@ const StyledIcon = styled('div')(({ theme }) => ({
   display: 'flex',
   borderRadius: '50%',
   alignItems: 'center',
-  width: theme.spacing(8),
-  height: theme.spacing(8),
+  width: theme.spacing(4),
+  height: theme.spacing(4),
   justifyContent: 'center',
   marginBottom: theme.spacing(3),
 }));

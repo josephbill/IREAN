@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { styled } from '@mui/material/styles';
 import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import SignUPForm from '../sections/auth/login/SignUPForm';
 
 // hooks
 import useResponsive from '../hooks/useResponsive';
@@ -43,7 +44,7 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function LoginPage() {
+export default function SignUpage() {
   const mdUp = useResponsive('up', 'md');
 
   return (
@@ -64,7 +65,7 @@ export default function LoginPage() {
         {mdUp && (
           <StyledSection>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
+              Hi, Welcome to IREAN
             </Typography>
             {/* <img src="/assets/illustrations/illustration_login.png" alt="login" /> */}
           </StyledSection>
@@ -73,13 +74,13 @@ export default function LoginPage() {
         <Container maxWidth="sm">
           <StyledContent>
             <Typography variant="h4" gutterBottom>
-              Sign in to IREAN
+              Create an IREAN Account as a Real Estate Agent or Property Owner
             </Typography>
 
             <Typography variant="body2" sx={{ mb: 5 }}>
-                 Don’t have an account? {''}
-               <RouterLink to="/signup" variant="subtitle2">
-                   Get started
+                 Already have an account? {''}
+               <RouterLink to="/login" variant="subtitle2">
+                   Login
                 </RouterLink> 
             </Typography>
 
@@ -103,7 +104,7 @@ export default function LoginPage() {
               </Typography>
             </Divider> */}
 
-            <LoginForm />
+            <SignUPForm />
           </StyledContent>
         </Container>
       </StyledRoot>
