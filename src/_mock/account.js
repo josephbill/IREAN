@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------
 
 const account = {
-  displayName: 'Super Admin',
+  displayName: 'Joseph Mbugua',
   email: 'demo@minimals.cc',
   photoURL: '/assets/images/avatars/avatar_default.jpg',
 };

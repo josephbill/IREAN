@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect,useState } from 'react';
 import { Outlet } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
@@ -32,8 +32,43 @@ const Main = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function DashboardLayout() {
+export default function DashboardLayout({prop}) {
   const [open, setOpen] = useState(false);
+
+  const [newUserArray,setNewUserArray] = useState([])
+
+
+
+  useEffect(() => {
+
+      // Get the value stored in local storage under the key 'myKey'
+const value = localStorage.getItem('user');
+
+// Check if the value is null (which means the key doesn't exist in local storage)
+if (value === null) {
+  console.log('The value does not exist in local storage.');
+} else {
+  console.log(`The value in local storage is ${value}`);
+  const checkLoginStatus = async () => {
+    try {
+      fetch("http://127.0.0.1:3000/users",{
+        method : "GET",
+        credentials : "include"
+      }).then(response => response.json())
+      .then(response => {
+        console.log(response)
+      })
+    } catch (error) {
+      console.log('API error:', error);
+    }
+  };
+  checkLoginStatus();
+}
+ 
+  
+
+}, [])
+
 
   return (
     <StyledRoot>

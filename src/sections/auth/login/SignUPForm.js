@@ -14,6 +14,8 @@ export default function SignUPForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const [userType, setUserType] = useState('');
+  const [userName,setUserName] = useState('');
+  const [password,setPassword] = useState('');
 
 
   const handleUserTypeChange = (event) => {
@@ -21,17 +23,41 @@ export default function SignUPForm() {
   };
 
   const handleClick = () => {
-    // here navigate to dashboard as per user role.
-    //create account 
-    
-    navigate('/login', { replace: true });
+    // sign up data 
+    const payload = {
+        "username" : userName,
+        "userrole" : userType,
+        "password" : password
+    }
+    console.log(payload)
+
+    fetch("http://127.0.0.1:3000/users",{
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+            "Content-Type" : "application/json"
+      }
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response)
+      if(response.status === "created"){
+        alert("Account Created Successfully")
+        navigate('/login', { replace: true });
+      } else {
+        console.log(response.statusText)
+        alert("Fill in all fields to complete account creation.")
+      }
+    }).catch(error => {
+      console.log("error")
+    })
 
   };
 
   return (
     <>
       <Stack spacing={3}>
-        <TextField name="username" label="Username / IREAN ID" />
+        <TextField name="username" label="Username" onChange={e => setUserName(e.target.value)} />
         <InputLabel id="user-type-label">User Type</InputLabel>
         <Select
           labelId="user-type-label"
@@ -40,13 +66,14 @@ export default function SignUPForm() {
           onChange={handleUserTypeChange}
           label="User Type"
         >
-          <MenuItem value={'realEstateAgent'}>Real Estate Agent</MenuItem>
-          <MenuItem value={'propertyOwner'}>Property Owner</MenuItem>
+          <MenuItem value={'1'}>Property Owner</MenuItem>
+          <MenuItem value={'2'}>Real Estate Agent</MenuItem>
         </Select>
       
         <TextField
           name="password"
           label="Password"
+          onChange={e => setPassword(e.target.value)}
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (

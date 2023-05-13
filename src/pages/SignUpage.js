@@ -50,7 +50,7 @@ export default function SignUpage() {
   return (
     <>
       <Helmet>
-        <title> Login | IREAN </title>
+        <title> Create Account | IREAN </title>
       </Helmet>
 
       <StyledRoot>

@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // @mui
 import {
   Card,
@@ -43,6 +43,8 @@ const TABLE_HEAD = [
 ];
 
 // ----------------------------------------------------------------------
+
+// fetch the data and replace array 
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -87,6 +89,28 @@ export default function UserPage() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [newUserArray,setNewUserArray] = useState([])
+
+
+
+  useEffect(() => {
+ 
+    const checkLoginStatus = async () => {
+        try {
+          const response = await fetch('http://localhost:3000/users', {
+            method: 'GET',
+            credentials: 'include',
+          });
+          const data = await response.json();
+        console.log(data)
+        } catch (error) {
+          console.log('API error:', error);
+        }
+      };
+      checkLoginStatus();
+
+}, [])
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);

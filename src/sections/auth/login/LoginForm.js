@@ -12,21 +12,73 @@ export default function LoginForm() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [username,setUsername] = useState('');
+  const [password,setPassword] = useState('');
+
 
   const handleClick = () => {
     // here navigate to dashboard as per user role.
     // login user here 
-    navigate('/dashboard', { replace: true });
+      // sign up data 
+      const payload = 
+        {
+          "user": {
+            "username": username,
+            "password": password
+          }
+        }
+    console.log(payload)
+
+    fetch("http://127.0.0.1:3000/login",{
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+            "Content-Type" : "application/json"
+      }
+    }).then(response => {
+      // Check if a session was created by looking for the Set-Cookie header
+      if (response.headers.has("Set-Cookie")) {
+        console.log("Session created!");
+      }
+      return response.json();
+    })
+    .then(response => {
+      console.log(JSON.stringify(response))
+      if(response.logged_in){
+        if(response.user.userrole === "0") {
+          localStorage.setItem("user", null);
+
+         alert("Account Verified Successfully")
+          navigate('/dashboard', {
+             replace: true,
+             state: {
+              username : response.user.username,
+              userId: response.user.id
+             }
+            
+            });
+        } else {
+          alert("Dashboard under Development.")
+        }
+      
+      } else {
+        console.log(response)
+        alert(response.errors[0])
+      }
+    }).catch(error => {
+      console.log(error)
+    })
   };
 
   return (
     <>
       <Stack spacing={3}>
-        <TextField name="username" label="Username / IREAN ID" />
+        <TextField name="username" label="Username / IREAN ID" onChange={e => setUsername(e.target.value)} />
 
         <TextField
           name="password"
           label="Password"
+          onChange={e => setPassword(e.target.value)}
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
