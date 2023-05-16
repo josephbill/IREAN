@@ -76,7 +76,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function UserPage() {
+export default function RealEstateAgentPage() {
   const [open, setOpen] = useState(null);
 
   const [page, setPage] = useState(0);
@@ -182,19 +182,14 @@ console.log("Outside useEffect " , newUserArray)
   return (
     <>
       <Helmet>
-        <title> Users | IREAN </title>
+        <title> Real Estate Agent | IREAN </title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+            Real Estate Agent(s)
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
-            onClick={() => navigate('/dashboard/addUsers')}
-          >
-            New User
-          </Button>
         </Stack>
 
         <Card>

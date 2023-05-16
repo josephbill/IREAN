@@ -22,25 +22,31 @@ const navConfig = [
     icon: icon('ic_cart'),
   },
   {
+    title: 'Property Owners',
+    path: '/dashboard/propertyOwners',
+    icon: icon('ic_user'),
+  },
+  {
     title: 'Real Estate Agents',
-    path: '/dashboard/user',
+    path: '/dashboard/realEstateAgents',
     icon: icon('ic_user'),
   },
   {
     title: 'Property Champions',
-    path: '/dashboard/user',
+    path: '/dashboard/propChampions',
     icon: icon('ic_user'),
   },
   {
-    title: 'Sales Support',
-    path: '/dashboard/user',
+    title: 'Sales and Support',
+    path: '/dashboard/salesSupport',
     icon: icon('ic_user'),
   },
   {
     title: 'Media and Marketing',
-    path: '/dashboard/user',
+    path: '/dashboard/mediaMarketing',
     icon: icon('ic_user'),
   },
+
   // {
   //   title: 'blog',
   //   path: '/dashboard/blog',
