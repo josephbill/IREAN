@@ -16,6 +16,7 @@ import PropOwnerPage from './pages/PropOwnerPage';
 import SalesStaffPage from './pages/SalesStaffPage';
 import PropChampPage from './pages/PropChampPage';
 import MarketingStaffPage from './pages/MarketingStaffPage';
+import ProfilePage from './pages/ProfilePage';
 
 // ----------------------------------------------------------------------
 
@@ -40,6 +41,7 @@ export default function Router() {
         { path: 'salesSupport', element: <SalesStaffPage /> },
         { path: 'mediaMarketing', element: <MarketingStaffPage /> },
         { path: 'propertyOwners', element: <PropOwnerPage /> },
+        { path: 'profilepage', element: <ProfilePage /> },
       ],
     },
    

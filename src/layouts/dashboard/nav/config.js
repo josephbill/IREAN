@@ -46,6 +46,11 @@ const navConfig = [
     path: '/dashboard/mediaMarketing',
     icon: icon('ic_user'),
   },
+  {
+    title: 'Profile',
+    path: '/dashboard/profilePage',
+    icon: icon('ic_user'),
+  },
 
   // {
   //   title: 'blog',

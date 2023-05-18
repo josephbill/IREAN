@@ -47,6 +47,9 @@ export default function LoginForm() {
       if(response.logged_in){
         if(response.user.userrole === "0") {
           localStorage.setItem("user", null);
+          localStorage.setItem("userid",response.user.id)
+          localStorage.setItem("username",response.user.username)
+          localStorage.setItem("verification",response.user.verification)
 
          alert("Account Verified Successfully")
           navigate('/dashboard', {
