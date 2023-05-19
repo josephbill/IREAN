@@ -52,13 +52,7 @@ fetch("http://127.0.0.1:3000/profiles", {
     } else {
         alert("process error, kindly check all fields and retry process")
     }
-    // if (response.status === "created") {
-    //   alert("Profile Updated Successfully");
-    //   // navigate('/dashboard/user', { replace: true });
-    // } else {
-    //   console.log(response.statusText);
-    //   alert("Fill in all fields to complete account creation.");
-    // }
+ 
   })
   .catch(error => {
     console.log(error);
