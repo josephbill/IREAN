@@ -3,6 +3,7 @@ import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { LoadingButton } from '@mui/lab';
 
 // @mui
 import {
@@ -36,11 +37,14 @@ import USERLIST from '../_mock/user';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
+  { id: 'id', label: 'id', alignRight: false },
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
   { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'verification', label: 'Verified', alignRight: false },
+  { id: 'email', label: 'Email', alignRight: false },
+  { id: 'phone', label: 'Phone', alignRight: false },
+  { id: 'attachment', label: 'Attachment', alignRight: false },
+
 ];
 
 // ----------------------------------------------------------------------
@@ -71,7 +75,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.username.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -91,7 +95,15 @@ export default function RealEstateAgentPage() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const [newUserArray,setNewUserArray] = useState([])
+  const [newUserArray,setNewUserArray] = useState([]);
+
+  const [email,setUserEmail] = useState("");
+
+  const [phone, setPhone] = useState("");
+
+  const [profileImage, setProfileImage] = useState("");
+
+  const [ProfileAttachments, setProfileAttachment] = useState("");
 
   let userArray = []
 
@@ -104,10 +116,10 @@ export default function RealEstateAgentPage() {
             credentials: 'include',
           });
           const data = await response.json();
-        console.log(data.users)
         userArray = data.users
         console.log(userArray)
-        setNewUserArray(userArray)
+        // setNewUserArray(userArray)
+        getUsersProfile(userArray)
         } catch (error) {
           console.log('API error:', error);
         }
@@ -117,6 +129,44 @@ export default function RealEstateAgentPage() {
 }, [])
 
 console.log("Outside useEffect " , newUserArray)
+
+const getUsersProfile = (userArray) => {
+
+// Using map to iterate over the array
+const profileDetails = userArray.map((user) => {
+  const { id, username, userrole, profile, verification } = user;
+ 
+  // Check if profile exists
+  if (profile) {
+    const { userphone, useremail, profileimages, profileattachements } = profile;
+
+    return {
+      id,
+      verification,
+      username,
+      userrole,
+      userphone,
+      useremail,
+      profileimages,
+      profileattachements,
+    };
+  }
+
+  // Handle the case where profile is missing
+  return {
+    id,
+    username,
+    verification,
+    userrole,
+    userphone: null,
+    useremail: null,
+    profileimages: null,
+    profileattachements: null,
+  };
+});
+
+setNewUserArray(profileDetails)
+}
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -134,7 +184,7 @@ console.log("Outside useEffect " , newUserArray)
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = newUserArray.map((n) => n.username);
       setSelected(newSelecteds);
       return;
     }
@@ -170,14 +220,25 @@ console.log("Outside useEffect " , newUserArray)
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - newUserArray.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(newUserArray, getComparator(order, orderBy), filterName);
 
   const isNotFound = !filteredUsers.length && !!filterName;
 
   const navigate = useNavigate();
 
+  const downloadUrl = (link) => {
+      // Create a temporary <a> element
+  const linkage = document.createElement('a');
+  linkage.href = link;
+
+  // Set the download attribute to specify the suggested file name
+  linkage.download = 'filename.ext';
+
+  // Trigger the click event on the link element to start the download
+  linkage.click();
+  }
 
   return (
     <>
@@ -188,8 +249,13 @@ console.log("Outside useEffect " , newUserArray)
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Real Estate Agent(s)
+            Real Estate Agent 
           </Typography>
+          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => navigate('/dashboard/addUsers')}
+          >
+            New User
+          </Button>
         </Stack>
 
         <Card>
@@ -202,48 +268,80 @@ console.log("Outside useEffect " , newUserArray)
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
+                  rowCount={newUserArray.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                    const selectedUser = selected.indexOf(name) !== -1;
+                    const { id, username, userrole, verification, profileimages , profileattachements, userphone, useremail } = row;
+                    console.log(profileimages)
+                    console.log(typeof(profileimages))
+                    const selectedUser = selected.indexOf(username) !== -1;
+                    const avatarUrl = profileimages && profileimages.url ? profileimages.url : 'https://res.cloudinary.com/dqlqmfjkt/image/upload/v1684488675/logo_ni8n0u.svg';
+                    const attachUrl = profileattachements && profileattachements.url ? profileattachements.url : 'https://res.cloudinary.com/dqlqmfjkt/image/upload/v1684488675/logo_ni8n0u.svg';
+                    const verificationStatus = verification ? "Yes" : "Pending";
+                    const emailProf = useremail 
+                    const phoneProf = userphone
 
-                    return (
-                      <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
-                        <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
-                        </TableCell>
 
-                        <TableCell component="th" scope="row" padding="none">
-                          <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
-                            <Typography variant="subtitle2" noWrap>
-                              {name}
-                            </Typography>
-                          </Stack>
-                        </TableCell>
-
-                        <TableCell align="left">{company}</TableCell>
-
-                        <TableCell align="left">{role}</TableCell>
-
-                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
-
-                        <TableCell align="left">
-                          <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
-                        </TableCell>
-
-                        <TableCell align="right">
-                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
-                            <Iconify icon={'eva:more-vertical-fill'} />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    );
+                    if (userrole === "2") {
+                      return (
+                        <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                          <TableCell padding="checkbox">
+                            <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, username)} />
+                          </TableCell>
+  
+                          <TableCell align="left">{id}</TableCell>
+  
+  
+                          <TableCell component="th" scope="row" padding="none">
+                            <Stack direction="row" alignItems="center" spacing={2}>
+                            <Avatar alt={username} src={avatarUrl} />
+                              <Typography variant="subtitle2" noWrap>
+                                {username}
+                              </Typography>
+                            </Stack>
+                          </TableCell>
+  
+                          <TableCell align="left">
+                          {userrole === "0" ? 'Super Admin' : userrole === "1" ? 'Property Owner' : userrole === "2" ? 'IREAN Real Estate Agent' : userrole
+                          === "3" ? 'IREAN Property Champion' : userrole === "4" ? 'IREAN Sales Support Staff' : userrole === "5" ? 'IREAN Media and Marketing' : userrole
+                          }
+                          </TableCell>
+  
+                          <TableCell align="left">{verificationStatus}</TableCell>
+  
+                          <TableCell align="left">{emailProf}</TableCell>
+  
+                          <TableCell align="left">{phoneProf}</TableCell>
+  
+                          <TableCell align="left">
+  
+                          <LoadingButton fullWidth size="small" type="submit" variant="contained" onClick={() => {
+                            downloadUrl(attachUrl)
+                          }}>
+                           Preview
+                          </LoadingButton>
+  
+                          </TableCell>
+  
+  
+                          {/* <TableCell align="left">
+                            <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
+                          </TableCell> */}
+  
+                          <TableCell align="right">
+                            <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+                              <Iconify icon={'eva:more-vertical-fill'} />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    } 
+                    return null;
+                 
                   })}
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
@@ -282,7 +380,7 @@ console.log("Outside useEffect " , newUserArray)
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={userArray.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
