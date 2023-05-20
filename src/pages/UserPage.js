@@ -30,7 +30,7 @@ import Label from '../components/label';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 // sections
-import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
+import { UserListHead, UserListToolbar, UserListOptions } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
 
@@ -67,18 +67,36 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function applySortFilter(array, comparator, query) {
+function applySortFilter(array, comparator, query, roleQuery) {
+  console.log(roleQuery);
+
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-  if (query) {
-    return filter(array, (_user) => _user.username.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+
+  if (query && roleQuery) {
+    return filter(array, (_user) =>
+      _user.username.toLowerCase().indexOf(query.toLowerCase()) !== -1 &&
+      _user.userrole === roleQuery
+    );
   }
+
+  if (query) {
+    return filter(array, (_user) =>
+      _user.username.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
+  }
+
+  if (roleQuery) {
+    return filter(array, (_user) => _user.userrole === roleQuery);
+  }
+
   return stabilizedThis.map((el) => el[0]);
 }
+
 
 export default function UserPage() {
   const [open, setOpen] = useState(null);
@@ -92,6 +110,8 @@ export default function UserPage() {
   const [orderBy, setOrderBy] = useState('name');
 
   const [filterName, setFilterName] = useState('');
+  const [filterRole, setFilterRole] = useState('');
+
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -139,6 +159,7 @@ const profileDetails = userArray.map((user) => {
   // Check if profile exists
   if (profile) {
     const { userphone, useremail, profileimages, profileattachements } = profile;
+    localStorage.setItem("image",profileimages)
 
     return {
       id,
@@ -220,9 +241,13 @@ setNewUserArray(profileDetails)
     setFilterName(event.target.value);
   };
 
+  const handleFilterByRole = (event) => {
+    setPage(0);
+    setFilterRole(event.target.value);
+  };
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - newUserArray.length) : 0;
 
-  const filteredUsers = applySortFilter(newUserArray, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(newUserArray, getComparator(order, orderBy), filterName, filterRole);
 
   const isNotFound = !filteredUsers.length && !!filterName;
 
@@ -249,7 +274,7 @@ setNewUserArray(profileDetails)
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+            Users
           </Typography>
           <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
             onClick={() => navigate('/dashboard/addUsers')}
@@ -259,7 +284,10 @@ setNewUserArray(profileDetails)
         </Stack>
 
         <Card>
+        <Stack direction="row" alignItems="center" mb={5}>
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+          <UserListOptions numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByRole} /> 
+        </Stack>
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -273,7 +301,7 @@ setNewUserArray(profileDetails)
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
-                <TableBody>
+                <TableBody> 
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const { id, username, userrole, verification, profileimages , profileattachements, userphone, useremail } = row;
                     console.log(profileimages)

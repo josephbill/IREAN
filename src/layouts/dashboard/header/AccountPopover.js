@@ -36,9 +36,23 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
     // here hit the logout api
+    fetch("http://127.0.0.1:3000/logout",{
+      method: "POST"
+    }).then(response => response.json())
+    .then(response => {
+      console.log(response)
+    })
     navigate('/login', { replace: true });
+    handleBack();
 
   };
+
+  const handleBack = () => {
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', () => {
+      window.history.pushState(null, document.title, window.location.href);
+    });
+  }
 
   const stayInPage = () => {
     setOpen(null);

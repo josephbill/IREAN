@@ -11,12 +11,9 @@ import ProductsPage from './pages/ProductsPage';
 import SignUpage from './pages/SignUpage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import AddUsersPage from './pages/AddUsersPage';
-import RealEstateAgentPage from './pages/RealEstateAgentPage';
-import PropOwnerPage from './pages/PropOwnerPage';
-import SalesStaffPage from './pages/SalesStaffPage';
-import PropChampPage from './pages/PropChampPage';
-import MarketingStaffPage from './pages/MarketingStaffPage';
+
 import ProfilePage from './pages/ProfilePage';
+import ListingForm from './pages/ListingsPages/ListingForm';
 
 // ----------------------------------------------------------------------
 
@@ -36,12 +33,8 @@ export default function Router() {
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
         {path: 'addUsers', element: <AddUsersPage />},
-        { path: 'realEstateAgents', element: <RealEstateAgentPage /> },
-        { path: 'propChampions', element: <PropChampPage /> },
-        { path: 'salesSupport', element: <SalesStaffPage /> },
-        { path: 'mediaMarketing', element: <MarketingStaffPage /> },
-        { path: 'propertyOwners', element: <PropOwnerPage /> },
         { path: 'profilepage', element: <ProfilePage /> },
+        {path: 'listings' , element: <ListingForm/>}
       ],
     },
    

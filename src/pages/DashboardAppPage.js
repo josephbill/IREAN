@@ -1,5 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
+import { useState ,useEffect} from 'react';
+
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
@@ -18,10 +20,87 @@ import {
   AppConversionRates,
 } from '../sections/@dashboard/app';
 
+const roleList = ["0","1","2","3","4","5"]
+
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
   const theme = useTheme();
+  const [adminCount,setAdminCount] = useState('')
+  const [ownerCount,setOwnerCount] = useState('')
+  const [salesCount,setSalesCount] = useState('')
+  const [mediaCount,setMediaCount] = useState('')
+  const [agentCount,setAgentCount] = useState('')
+  const [champCount,setChampCount] = useState('')
+
+  
+  useEffect(() => {
+      getAdminCount();
+
+}, [])
+
+
+function getAdminCount(){
+
+  for(let i = 0; i < roleList.length; i+= 1) {
+    let count = 0;
+    const payload = {
+      "role" : roleList[i]
+    }
+    console.log("------------------")
+    console.log(payload)
+    fetch("http://127.0.0.1:3000/users/count_by_role",{
+      method: "POST",
+      headers: {
+        "Content-Type" : "application/json"
+      },
+      body: JSON.stringify(payload)
+    
+    }).then(response => response.json())
+    .then(response => {
+      console.log(response)
+      if(roleList[i] === "0"){
+        count = response.count
+        console.log("----------------")
+        console.log(count)
+        setAdminCount(response.count)
+      } else if(roleList[i] === "1"){
+        setOwnerCount(response.count)
+      } else if(roleList[i] === "2"){
+        setAgentCount(response.count)
+
+      } else if(roleList[i] === "3"){
+        setChampCount(response.count)
+
+      } else if(roleList[i] === "4"){
+        setSalesCount(response.count)
+
+      } else if(roleList[i] === "5"){
+        setMediaCount(response.count)
+
+      } 
+      console.log("admin count")
+      console.log(adminCount)
+      console.log("owner count")
+      console.log(ownerCount)
+      console.log("agent count")
+      console.log(agentCount)
+      console.log("champ count")
+      console.log(champCount)
+      console.log("sales count")
+      console.log(salesCount)
+      console.log("media count")
+      console.log(mediaCount)
+
+    }).catch(error => {
+      console.log(error)
+    })
+  }
+ 
+}
+
+
+
 
   return (
     <>
@@ -34,24 +113,38 @@ export default function DashboardAppPage() {
           Hi, Welcome back
         </Typography>
 
+        {/* users report  */}
+        <Typography variant="h4" sx={{ mb: 5 }}>
+          System Users
+        </Typography>
+
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:house'} />
+            <AppWidgetSummary title="System Admins" total={adminCount} icon={'ant-design:house'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:house'} />
+            <AppWidgetSummary title="Property Owners" total={ownerCount} color="info" icon={'ant-design:house'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Property Listing" total={1723315} color="warning" icon={'ant-design:house'} />
+            <AppWidgetSummary title="Real Estate Agents" total={agentCount} color="warning" icon={'ant-design:house'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+            <AppWidgetSummary title="IREAN Property Champions" total={champCount} color="error" icon={'ant-design:house'} />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="IREAN Sales Staff" total={salesCount} color="error" icon={'ant-design:house'} />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="IREAN Media and Marketing Staff" total={mediaCount} color="error" icon={'ant-design:house'} />
           </Grid>
 
         </Grid>
+
       </Container>
     </>
   );

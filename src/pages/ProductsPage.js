@@ -1,7 +1,10 @@
 import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 // @mui
-import { Container, Stack, Typography } from '@mui/material';
+import { Container, Stack, Typography, Button,  } from '@mui/material';
+import Iconify from '../components/iconify';
+
 // components
 import { ProductSort, ProductList, ProductCartWidget, ProductFilterSidebar } from '../sections/@dashboard/products';
 // mock
@@ -19,6 +22,8 @@ export default function ProductsPage() {
   const handleCloseFilter = () => {
     setOpenFilter(false);
   };
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -38,7 +43,12 @@ export default function ProductsPage() {
               onOpenFilter={handleOpenFilter}
               onCloseFilter={handleCloseFilter}
             />
-            <ProductSort />
+            {/* <ProductSort /> */}
+            <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => navigate('/dashboard/listings')}
+          >
+            Add Listing
+          </Button>
           </Stack>
         </Stack>
 

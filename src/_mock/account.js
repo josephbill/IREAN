@@ -1,9 +1,12 @@
 // ----------------------------------------------------------------------
 
+
+const username = localStorage.getItem("username");
+
 const account = {
-  displayName: 'Joseph Mbugua',
+  displayName: username,
   email: 'demo@minimals.cc',
-  photoURL: '/assets/images/avatars/avatar_default.jpg',
+  photoURL:'/assets/logo.svg' ,
 };
 
 export default account;
