@@ -1,6 +1,6 @@
 import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
-import DashboardLayout from './layouts/dashboard';
+import DashboardLayout from './layouts/dashboard/DashboardLayout';
 import SimpleLayout from './layouts/simple';
 //
 import BlogPage from './pages/BlogPage';
@@ -37,7 +37,6 @@ export default function Router() {
         {path: 'listings' , element: <ListingForm/>}
       ],
     },
-   
     {
       path: 'signup',
       element: <SignUpage />,

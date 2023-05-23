@@ -35,43 +35,32 @@ export default function LoginForm() {
       headers: {
             "Content-Type" : "application/json"
       }
-    }).then(response => {
-      // Check if a session was created by looking for the Set-Cookie header
-      if (response.headers.has("Set-Cookie")) {
-        console.log("Session created!");
-      }
-      return response.json();
-    })
+    }).then(response =>response.json())
     .then(response => {
       console.log(JSON.stringify(response))
+      console.log("User role is -------------------------")
+      console.log(response.user.userrole) 
       if(response.logged_in){
-        if(response.user.userrole === "0") {
-          localStorage.setItem("user", null);
-          localStorage.setItem("userid",response.user.id)
-          localStorage.setItem("username",response.user.username)
-          localStorage.setItem("verification",response.user.verification)
-
-         alert("Account Verified Successfully")
-          navigate('/dashboard', {
-             replace: true,
-             state: {
-              username : response.user.username,
-              userId: response.user.id
-             }
-            
-            });
-        } else {
-          alert("Dashboard under Development.")
-        }
-      
-      } else {
-        console.log(response)
-        alert(response.errors[0])
+        localStorage.setItem("user", null);
+        localStorage.setItem("userid",response.user.id)
+        localStorage.setItem("username",response.user.username)
+        localStorage.setItem("verification",response.user.verification)
+        localStorage.setItem("userrole",response.user.userrole)
+        changeUi(response.user.userrole);
       }
     }).catch(error => {
       console.log(error)
     })
   };
+
+  const changeUi = (role) => {
+    console.log("role is -----------------")
+     console.log(role)
+      alert("Account Verified Successfully" , role.toString())
+        navigate('/dashboard', {
+           replace: true,
+          });
+  }
 
   return (
     <>

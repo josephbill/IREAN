@@ -10,7 +10,7 @@ import Iconify from '../components/iconify/Iconify';
 
 // ----------------------------------------------------------------------
 
-export default function BlogPage() {
+export default function AddUsersPage() {
 
   const navigate = useNavigate();
 

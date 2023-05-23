@@ -13,8 +13,7 @@ import Logo from '../../../components/logo';
 import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
 //
-import navConfig from './config';
-import navConfigRoles from '../navotherroles/config';
+import navConfigRoles from './config';
 
 // ----------------------------------------------------------------------
 
@@ -67,19 +66,6 @@ export default function Nav({ openNav, onCloseNav }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const renderNav = userrole => {
-    console.log("IN RENDER NAV ")
-    console.log(userrole)
-    switch(userrole) {
-      case "0": 
-        return <NavSection data={navConfig} />
-        case "1":
-          return <NavSection data={navConfig} />
-          default: 
-          return <NavSection data={navConfig} />
-        }
-  }
-
   const renderContent = (
     <Scrollbar
       sx={{
@@ -110,15 +96,8 @@ export default function Nav({ openNav, onCloseNav }) {
       </Box>
 
 {/* conditional render on attribute for NavSection */}
-{
-  userrole === "0" ? (
-    <NavSection data={navConfig} />
-  ) : userrole === "1" || userrole === "2" || userrole === "3" || userrole === "4" || userrole === "5"   ? (
-<NavSection data={navConfigRoles} />  )
-: null
-}
 
-      
+      <NavSection data={navConfigRoles} />
 
       <Box sx={{ flexGrow: 1 }} />
 

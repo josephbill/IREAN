@@ -1,7 +1,10 @@
-
+import React from 'react';
+import GooglePlacesAutocomplete from 'react-google-autocomplete';
 // @mui
 import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox , Select , MenuItem, Typography, InputLabel} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+
+
 // components
 
 export default function ListingLocation({values,handleChange,nextStep}){
@@ -40,7 +43,14 @@ export default function ListingLocation({values,handleChange,nextStep}){
           <MenuItem value={'Office Blocks'}>Office Blocks</MenuItem>
         </Select>
 
-        <TextField label="Location" onChange={handleChange('location')} />
+        <TextField label="Location" onChange={handleChange('location')}/>
+
+        {/* <GooglePlacesAutocomplete style={{
+          width : 100,
+          height: 100
+        }} apiKey='AIzaSyDAh0JBsZYaoONsW6f5eopD-SPsgxFYDjQ'/> */}
+      
+      
         <TextField label="Street Name" onChange={handleChange('streetname')} />
         <TextField label="Street Number" onChange={handleChange('streetnumber')} />
 

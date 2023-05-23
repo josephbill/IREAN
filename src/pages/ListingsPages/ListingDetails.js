@@ -17,11 +17,10 @@ export default function ListingDetails({values,handleChange,nextStep,prevStep}){
 
         return (
           <>
-           <Typography variant='h4'>
+          <Typography variant='h4'>
          Details
-        </Typography>
+          </Typography>
                   <Stack spacing={3}>
-                  {/* <InputLabel id="user-type-label">Listing Type</InputLabel> */}
         <TextField label="Heading" onChange={handleChange('heading')} />
         <TextField label="Brief Desctription" onChange={handleChange('description')} />
         <TextField label="Listing Price" onChange={handleChange('price')} />

@@ -26,6 +26,25 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  console.log("item in nav index ----------------")
+  console.log(localStorage.getItem("username"))
+  console.log(localStorage.getItem("userrole"))
+  let usercontent;
+ const userrole = localStorage.getItem("userrole");
+ const username = localStorage.getItem("username")
+  if( userrole === "0") {
+     usercontent = "Super Admin"
+  } else if (userrole === "1") {
+   usercontent = "Property Owner"
+  } else if (userrole === "2") {
+   usercontent = "Real Estate Agent"
+  } else if (userrole === "3") {
+   usercontent = "Property Champion"
+  } else if (userrole === "4") {
+   usercontent = "Sales and Support"
+  } else if (userrole === "5") {
+   usercontent = "Media and Marketing"
+  }
   const [open, setOpen] = useState(null);
   const navigate = useNavigate();
 
@@ -40,10 +59,15 @@ export default function AccountPopover() {
       method: "POST"
     }).then(response => response.json())
     .then(response => {
+      console.log("=========================================")
       console.log(response)
+     localStorage.clear();
+      navigate('/login', { replace: true });
+      handleBack();
+      window.location.reload()
+
     })
-    navigate('/login', { replace: true });
-    handleBack();
+
 
   };
 
@@ -101,10 +125,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {username}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {usercontent}
           </Typography>
         </Box>
 
