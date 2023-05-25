@@ -19,7 +19,7 @@ export default function ListingForm(){
         price: "",
         photos : [],
         plans : [],
-        videos: '',
+        videos: [],
     })
 
         const nextStep = () => {
@@ -31,8 +31,30 @@ export default function ListingForm(){
         };
 
         const handleChange = (input) => (e) => {
+          if (input === 'photos' || input === 'plans' || input === 'videos') {
+            const files = Array.from(e.target.files);
+        
+            setListingDetails((prevState) => {
+              if (Array.isArray(prevState[input])) {
+                return {
+                  ...prevState,
+                  [input]: [...prevState[input], ...files],
+                };
+              }
+        
+              return {
+                ...prevState,
+                [input]: files,
+              };
+            });
+          } else {
             setListingDetails({ ...listingDetails, [input]: e.target.value });
-            };
+          }
+        };
+        
+      
+    
+
 
         switch(step){
             case 1: 
@@ -78,9 +100,45 @@ export default function ListingForm(){
                 alert("Forms not loading")
         }
 
-        function submitDetails(listingDetails){
-            console.log(":;;;;;;;;;;;;;;;;")
-            console.log(listingDetails)
+        function submitDetails(listingDetails) {
+          const userID = localStorage.getItem("userid");
+          const formData = new FormData();
+        
+          formData.append("user_id", userID);
+          formData.append("listingtype", listingDetails.listingtype);
+          formData.append("proptype", listingDetails.proptype);
+          formData.append("location", listingDetails.location);
+          formData.append("streetname", listingDetails.streetname);
+          formData.append("streetnumber", listingDetails.streetnumber);
+          formData.append("heading", listingDetails.heading);
+          formData.append("description", listingDetails.description);
+          formData.append("price", listingDetails.price);
+        
+          listingDetails.videos.forEach((video, index) => {
+            formData.append(`videos[${index}]`, video);
+          });
+        
+          listingDetails.photos.forEach((photo, index) => {
+            formData.append(`photos[${index}]`, photo);
+          });
+        
+          listingDetails.plans.forEach((plan, index) => {
+            formData.append(`plans[${index}]`, plan);
+          });
+        
+          console.log(formData);
+        
+          fetch("http://localhost:3000/listings", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Server response:");
+              console.log(data);
+            })
+            .catch((error) => {
+              console.error("Error submitting listing:", error);
+            });
         }
-
 }
