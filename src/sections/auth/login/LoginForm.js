@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 // @mui
 import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import LoadingSpinner from '../../../utils/loadingSpinner';
 // components
 import Iconify from '../../../components/iconify';
-
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
@@ -14,12 +14,14 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [username,setUsername] = useState('');
   const [password,setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const handleClick = () => {
     // here navigate to dashboard as per user role.
     // login user here 
       // sign up data 
+      setIsLoading(true)
       const payload = 
         {
           "user": {
@@ -49,14 +51,15 @@ export default function LoginForm() {
         changeUi(response.user.userrole);
       }
     }).catch(error => {
-      console.log(error)
+      setIsLoading(false)
+      alert("this account cannot be verified.")
     })
   };
 
   const changeUi = (role) => {
     console.log("role is -----------------")
      console.log(role)
-      alert("Account Verified Successfully" , role.toString())
+      setIsLoading(false)
         navigate('/dashboard', {
            replace: true,
           });
@@ -64,6 +67,7 @@ export default function LoginForm() {
 
   return (
     <>
+         {isLoading ? <LoadingSpinner /> : null}
       <Stack spacing={3}>
         <TextField name="username" label="Username / IREAN ID" onChange={e => setUsername(e.target.value)} />
 

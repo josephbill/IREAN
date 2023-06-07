@@ -1,19 +1,42 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 // @mui
 import { Container, Stack, Typography, Button,  } from '@mui/material';
-import Iconify from '../components/iconify';
+import Iconify from '../../components/iconify';
 
 // components
-import { ProductSort, ProductList, ProductCartWidget, ProductFilterSidebar } from '../sections/@dashboard/products';
+import { ProductSort, ProductList, ProductCartWidget, ProductFilterSidebar } from '../../sections/@dashboard/products';
 // mock
-import PRODUCTS from '../_mock/products';
+import PRODUCTS from '../../_mock/products';
+
 
 // ----------------------------------------------------------------------
 
 export default function ProductsPage() {
   const [openFilter, setOpenFilter] = useState(false);
+
+  
+  let listingArray  = []
+  useEffect(() => {
+ 
+    const getListings = async () => {
+        try {
+          const response = await fetch('http://localhost:3000/listings', {
+            method: 'GET',
+            credentials: 'include',
+          });
+          const data = await response.json();
+        listingArray = data
+        console.log(listingArray)
+       
+        } catch (error) {
+          console.log('API error:', error);
+        }
+      };
+      getListings();
+
+}, [])
 
   const handleOpenFilter = () => {
     setOpenFilter(true);
@@ -30,7 +53,6 @@ export default function ProductsPage() {
       <Helmet>
         <title> Dashboard:Listings | IREAN </title>
       </Helmet>
-
       <Container>
         <Typography variant="h4" sx={{ mb: 5 }}>
           Listings 

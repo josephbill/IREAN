@@ -64,8 +64,23 @@ export default function ListingLocation({ values, handleChange, nextStep, prevSt
           onChange={handlePropertyTypeChange}
           label="Property Type"
         >
-          <MenuItem value="Villas">Villas</MenuItem>
+         <MenuItem value=" ">
+  <Typography variant="body1" style={{ fontWeight: 'bold' }}>
+    Select a House Listing Type
+  </Typography>
+</MenuItem>
+          <MenuItem value="Apartments">Apartments</MenuItem>
+          <MenuItem value="Masionnaites">Masionnaites</MenuItem>
+          <MenuItem value="Bungalows">Bungalows</MenuItem>
           <MenuItem value="Office Blocks">Office Blocks</MenuItem>
+          <MenuItem value=" ">
+  <Typography variant="body1" style={{ fontWeight: 'bold' }}>
+    Select a Land Listing Type
+  </Typography>
+</MenuItem>
+          <MenuItem value="Commercial">Commercial Land</MenuItem>
+          <MenuItem value="Residential">Residential Land</MenuItem>
+          <MenuItem value="Agricultural">Agricultural Land</MenuItem>
         </Select>
         <TextField label="Location" onChange={handleLocationChange} />
         <TextField label="Street Name" onChange={handleStreetNameChange} />

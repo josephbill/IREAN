@@ -3,8 +3,11 @@ import { Helmet } from 'react-helmet-async';
 import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox, Select, MenuItem, InputLabel, Container, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 // @mui
 import { LoadingButton } from '@mui/lab';
+import LoadingSpinner from '../utils/loadingSpinner';
+
 // components
 import Iconify from '../components/iconify/Iconify';
 
@@ -22,6 +25,7 @@ export default function AddUsersPage() {
   const [memberid, setMemberId] = useState('');
   const [email, setEmail] = useState('');
 
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const handleUserTypeChange = (event) => {
@@ -30,6 +34,7 @@ export default function AddUsersPage() {
 
   const handleClick = () => {
 
+  setIsLoading(true)
    const newPass = memberid + email;
    console.log(newPass)
 
@@ -52,13 +57,16 @@ export default function AddUsersPage() {
     .then(response => {
       console.log(response)
       if(response.status === "created"){
-        alert("Account Created Successfully")
+        setIsLoading(false)
+       // alert("Account Created Successfully")
         navigate('/dashboard/user', { replace: true });
       } else {
+        setIsLoading(false)
         console.log(response.statusText)
         alert("Fill in all fields to complete account creation.")
       }
     }).catch(error => {
+      setIsLoading(false)
       console.log("error")
     })
 
@@ -70,6 +78,9 @@ export default function AddUsersPage() {
       <Helmet>
         <title> Add Users | IREAN </title>
       </Helmet>
+
+      {isLoading ? <LoadingSpinner /> : null}
+
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>

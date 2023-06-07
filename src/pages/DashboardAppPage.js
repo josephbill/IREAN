@@ -32,11 +32,15 @@ export default function DashboardAppPage() {
   const [mediaCount,setMediaCount] = useState('')
   const [agentCount,setAgentCount] = useState('')
   const [champCount,setChampCount] = useState('')
+  const [who,setWho] = useState('')
+
+
 
   
   useEffect(() => {
-      getAdminCount();
-
+    const userRole = localStorage.getItem("userrole") 
+    setWho(userRole)
+    getAdminCount();
 }, [])
 
 
@@ -102,6 +106,8 @@ function getAdminCount(){
 
 
 
+
+
   return (
     <>
       <Helmet>
@@ -112,40 +118,69 @@ function getAdminCount(){
         <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
         </Typography>
-
         {/* users report  */}
+        {who === "0" ? (
+          <>
         <Typography variant="h4" sx={{ mb: 5 }}>
           System Users
         </Typography>
-
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="System Admins" total={adminCount} icon={'ant-design:house'} />
+            <AppWidgetSummary title="System Admins" total={adminCount} color='secondary' icon={'ant-design:house'} />
           </Grid>
-
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="Property Owners" total={ownerCount} color="info" icon={'ant-design:house'} />
           </Grid>
-
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="Real Estate Agents" total={agentCount} color="warning" icon={'ant-design:house'} />
           </Grid>
-
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="IREAN Property Champions" total={champCount} color="error" icon={'ant-design:house'} />
           </Grid>
-
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="IREAN Sales Staff" total={salesCount} color="error" icon={'ant-design:house'} />
           </Grid>
-
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="IREAN Media and Marketing Staff" total={mediaCount} color="error" icon={'ant-design:house'} />
+            <AppWidgetSummary title="IREAN Media and Marketing Staff"  total={mediaCount} color="error" icon={'ant-design:house'} />
           </Grid>
-
+        </Grid>   
+          </>
+        ) : 
+        who === "1" ? (
+          <>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="Uploaded Lisitings" total={adminCount} icon={'ant-design:house'} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="Agents" total={adminCount} icon={'ant-design:house'} />
+          </Grid>
         </Grid>
-
-      </Container>
-    </>
+          </>
+        ) :  
+        who === "2" ? (
+          <>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="Listings" total={adminCount} icon={'ant-design:house'} color='info' />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="Leads" total={adminCount} icon={'ant-design:house'} color='error' />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="Requests" total={adminCount} icon={'ant-design:house'} color='warning' />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="Saved" total={adminCount} icon={'ant-design:house'} color='success' />
+          </Grid>
+        </Grid>
+          </>
+        )
+        
+        : null
+        }
+       
+  </Container>
+  </>
   );
 }

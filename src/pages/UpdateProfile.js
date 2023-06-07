@@ -11,7 +11,7 @@ import Iconify from '../components/iconify/Iconify';
 
 // ----------------------------------------------------------------------
 
-export default function ProfilePage() {
+export default function UpdateProfile() {
 
   const navigate = useNavigate();
 
@@ -34,41 +34,39 @@ export default function ProfilePage() {
  console.log(userid)
 
 
+ const handleUpdate = () => {
+  setIsLoading(true)
+  const formData = new FormData();
+  formData.append("user_id", userid);
+  formData.append("userphone", phonenumber);
+  formData.append("useremail", email);
+  formData.append("profileimages", profileImage);
+  formData.append("profileattachements", profileAttachment);
 
-  const handleClick = () => {
-    setIsLoading(true)
-    const formData = new FormData();
-    formData.append("user_id", userid);
-    formData.append("userphone", phonenumber);
-    formData.append("useremail", email);
-    formData.append("profileimages", profileImage);
-    formData.append("profileattachements", profileAttachment);
-  
-    // console.log(Object.fromEntries(formData));
-fetch("http://127.0.0.1:3000/profiles", {
-  method: "POST",
-  body: formData
+  // console.log(Object.fromEntries(formData));
+fetch("http://127.0.0.1:3000/profiles/1", {
+method: "PUT",
+body: formData
 })
-  .then(response => response.json())
-  .then(response => {
-    console.log(response);
-    if(response.result){
-       // alert(response.msg)
-       setIsLoading(false)
-       alert(response.msg)
-    } else {
-      setIsLoading(false)
-      alert("process error, kindly check all fields and retry process")
-    }
- 
-  })
-  .catch(error => {
+.then(response => response.json())
+.then(response => {
+  console.log(response);
+  if(response.result){
+     // alert(response.msg)
+     setIsLoading(false)
+     alert(response.msg)
+  } else {
     setIsLoading(false)
-    console.log(error);
-    alert("An error occurred while processing the request.");
-  });
-};
+    alert("process error, kindly check all fields and retry process")
+  }
 
+})
+.catch(error => {
+  setIsLoading(false)
+  console.log(error);
+  alert("An error occurred while processing the request.");
+});
+ };
 
   
   const handleFileChange = (e) => {
@@ -85,7 +83,7 @@ fetch("http://127.0.0.1:3000/profiles", {
   return (
     <>
       <Helmet>
-        <title> Submit Profile | IREAN </title>
+        <title> Update Profile | IREAN </title>
       </Helmet>
 
       {isLoading ? <LoadingSpinner /> : null}
@@ -99,11 +97,6 @@ fetch("http://127.0.0.1:3000/profiles", {
             onClick={() => navigate('/dashboard/viewProfile')}
           >
             View Profile
-          </Button>
-          <Button variant="contained" color='warning' startIcon={<Iconify icon="eva:plus-fill" />}
-            onClick={() => navigate('/dashboard/updateprofile')}
-          >
-            Update Profile
           </Button>
           </Stack>
         </Stack>
@@ -135,12 +128,10 @@ fetch("http://127.0.0.1:3000/profiles", {
           marginBottom : 10
         }}/>
         </Stack>
-        <LoadingButton fullWidth size="medium" type="submit" variant="contained" style={{
-          marginBottom : 10}} onClick={handleClick}>
-        Submit Profile
-      </LoadingButton>
 
-  
+      <LoadingButton fullWidth color='warning' size="medium" type="submit" variant="contained" onClick={handleUpdate}>
+        Update Profile
+      </LoadingButton>
       </Container>
     </>
   );

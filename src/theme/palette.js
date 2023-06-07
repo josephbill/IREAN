@@ -25,6 +25,15 @@ const PRIMARY = {
   contrastText: '#fff',
 };
 
+const ORANGE = {
+  lighter: '#FFA500',
+  light: '#FFA500',
+  main: '#FFA500',
+  dark: '#FFA500',
+  darker: '#FFA500',
+  contrastText: '#fff',
+};
+
 const SECONDARY = {
   lighter: '#D6E4FF',
   light: '#84A9FF',
@@ -79,6 +88,7 @@ const palette = {
   warning: WARNING,
   error: ERROR,
   grey: GREY,
+  orange: ORANGE,
   divider: alpha(GREY[500], 0.24),
   text: {
     primary: GREY[800],
