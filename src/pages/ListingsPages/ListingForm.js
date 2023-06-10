@@ -112,14 +112,17 @@ export default function ListingForm() {
             if (response.status === "created") {
                 // Handle success
                 console.log('Listing created successfully');
-                Alert("Listing Created Successfully")
+                alert("Listing Created Successfully")
                 navigate('/dashboard/products', {
                     replace: true,
                 });
             } else {
                 // Handle error
-                alert("Failed to create the listing");
+                alert("Failed to create the listing, Complete your profile details.");
                 console.error('Failed to create listing');
+                navigate('/dashboard/products', {
+                  replace: true,
+              });
             }
         } catch (error) {
             alert("Network Error");

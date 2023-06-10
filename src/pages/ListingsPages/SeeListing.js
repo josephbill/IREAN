@@ -51,6 +51,11 @@ console.log(products);
           >
             Back to Listings
           </Button>
+          <Button variant="contained" color='orange' startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => navigate(`/modifyproduct/${products.id}`,{state: {products}})}
+          >
+            Edit Listing
+          </Button>
           </Stack>
         </Stack>
 

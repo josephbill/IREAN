@@ -32,6 +32,7 @@ export default function DashboardAppPage() {
   const [mediaCount,setMediaCount] = useState('')
   const [agentCount,setAgentCount] = useState('')
   const [champCount,setChampCount] = useState('')
+  const [listingCount,setListingCount] = useState('')
   const [who,setWho] = useState('')
 
 
@@ -83,6 +84,8 @@ function getAdminCount(){
         setMediaCount(response.count)
 
       } 
+
+      getListingsCount()
       console.log("admin count")
       console.log(adminCount)
       console.log("owner count")
@@ -104,6 +107,21 @@ function getAdminCount(){
 }
 
 
+function getListingsCount() {
+  fetch("http://127.0.0.1:3000/listings/count",{
+    method: "POST",
+    headers: {
+      "Content-Type" : "application/json"
+    },
+        
+  }).then(response => response.json())
+  .then(response => {
+    console.log(response)
+    setListingCount(response.count)
+  })
+}
+
+
 
 
 
@@ -121,7 +139,7 @@ function getAdminCount(){
         {/* users report  */}
         {who === "0" ? (
           <>
-        <Typography variant="h4" sx={{ mb: 5 }}>
+        <Typography variant="h6" sx={{ mb: 5 }}>
           System Users
         </Typography>
         <Grid container spacing={3}>
@@ -144,6 +162,15 @@ function getAdminCount(){
             <AppWidgetSummary title="IREAN Media and Marketing Staff"  total={mediaCount} color="error" icon={'ant-design:house'} />
           </Grid>
         </Grid>   
+        <Typography variant="h6" style={{marginTop: 10}} sx={{ mb: 5 }}>
+          Property Listings
+        </Typography>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="Uploaded Listings" total={listingCount} color='secondary' icon={'ant-design:house'} />
+          </Grid>
+      
+        </Grid>  
           </>
         ) : 
         who === "1" ? (

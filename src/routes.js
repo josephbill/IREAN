@@ -17,6 +17,7 @@ import ListingForm from './pages/ListingsPages/ListingForm';
 import ViewProfile from './pages/ViewProfile';
 import UpdateProfile from './pages/UpdateProfile';
 import SeeListing from './pages/ListingsPages/SeeListing';
+import AdminEditListing from './pages/ListingsPages/AdminEditListing';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -44,6 +45,9 @@ export default function Router() {
     {
        path: '/product/:id', element: <SeeListing /> 
 
+    },
+    {
+      path: '/modifyproduct/:id', element: <AdminEditListing/>
     },
     {
       path: 'signup',

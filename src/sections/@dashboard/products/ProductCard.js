@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // @mui
-import { Box, Card, Link, Typography, Stack,Button } from '@mui/material';
+import { Box, Card, Link, Typography, Stack,Button ,IconButton, Image} from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
 import { LoadingButton } from '@mui/lab';
@@ -30,15 +30,19 @@ ShopProductCard.propTypes = {
 };
 
 export default function ShopProductCard({ product }) {
-  const {  description, heading, id, listingtype, location ,price} = product;
+  const {  description, heading, id, listingtype, location ,price,verifiedstatus,leadstatus} = product;
   const navigate = useNavigate()
   console.log("SHOP PRODUCT")
   console.log(product)
+  const products = product
 
   const handleSeeMore = () => {
-    navigate(`/product/${id}`, { state: { product } }); // Navigate to new route with product details
+    navigate(`/product/${id}`, { state: { products } }); // Navigate to new route with product details
   };
 
+  const goToEdits = () => {
+    navigate(`/modifyproduct/${id}`, { state: { products } }); // Navigate to new route with product details
+  };
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
@@ -88,10 +92,69 @@ export default function ShopProductCard({ product }) {
         </Stack>
         <Stack>
         <Button variant="contained" color='orange' startIcon={<Iconify icon="fa-solid:star" />}
-            onClick={handleSeeMore}
+            onClick={goToEdits}
           >
             View Listing
           </Button>
+        </Stack>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+        {verifiedstatus === null && 
+              <IconButton
+              onClick={goToEdits}
+              style={{
+               width: 25,
+               height: 25,
+              }}
+              >
+         <StyledProductImg src="../../../../assets/images/avatars/notverified.png" alt="notverified" />
+            </IconButton>
+        }
+       {verifiedstatus === 0 && 
+           <IconButton
+           onClick={goToEdits}
+           style={{
+            width: 30,
+            height: 30,
+           }}
+           >
+      <StyledProductImg src="../../../../assets/images/avatars/notverified.png" alt="notverified" />
+         </IconButton>
+        }
+
+{verifiedstatus === 1 && 
+           <IconButton
+           onClick={goToEdits}
+           style={{
+            width: 30,
+            height: 30,
+           }}
+           >
+      <StyledProductImg src="../../../../assets/images/avatars/verified.png" alt="verified" />
+         </IconButton>
+        }
+
+        {leadstatus === "Hot" &&
+             <IconButton
+             onClick={goToEdits}  
+             >
+              <Typography variant='h6' style={{ color: 'red' }}>Hot Listing</Typography>
+           </IconButton>
+        }
+        {leadstatus === "Warm" && 
+           <IconButton
+           onClick={goToEdits}
+           >
+            <Typography variant='h6' style={{ color: '#7E57C2' }}>Warm Listing</Typography>
+         </IconButton>
+        }
+        {leadstatus === "Cold" && 
+           <IconButton
+           onClick={goToEdits}
+           >
+            <Typography variant='h6' style={{ color: '#42A5F5' }}>Cold Listing</Typography>
+         </IconButton>
+        }
+
         </Stack>
       </Stack>
     </Card>

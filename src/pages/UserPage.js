@@ -31,6 +31,8 @@ import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 // sections
 import { UserListHead, UserListToolbar, UserListOptions } from '../sections/@dashboard/user';
+import LoadingSpinner from '../utils/loadingSpinner';
+
 // mock
 import USERLIST from '../_mock/user';
 
@@ -44,6 +46,7 @@ const TABLE_HEAD = [
   { id: 'email', label: 'Email', alignRight: false },
   { id: 'phone', label: 'Phone', alignRight: false },
   { id: 'attachment', label: 'Attachment', alignRight: false },
+  { id: 'actions', label: 'Actions', alignRight: false },
 
 ];
 
@@ -117,13 +120,8 @@ export default function UserPage() {
 
   const [newUserArray,setNewUserArray] = useState([]);
 
-  const [email,setUserEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [phone, setPhone] = useState("");
-
-  const [profileImage, setProfileImage] = useState("");
-
-  const [ProfileAttachments, setProfileAttachment] = useState("");
 
   let userArray = []
 
@@ -265,11 +263,89 @@ setNewUserArray(profileDetails)
   linkage.click();
   }
 
+
+  const unverifyUser = async (id) => {
+    setIsLoading(true);
+  
+    const updateData = {
+      verification: "0",
+    };
+  
+    try {
+      const response = await fetch(`http://127.0.0.1:3000/users/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updateData),
+      });
+  
+      if (response.ok) {
+        // Listing successfully updated
+        const updatedListing = await response.json();
+        console.log(updatedListing);
+        alert("User has been unverified.")
+        navigate('/dashboard/app')
+  
+      } else {
+        // Error occurred during the update
+        const errorData = await response.json();
+        console.log(errorData);
+        alert("Error occurred on update.")
+        navigate('/dashboard/app')
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  
+    setIsLoading(false);
+  }
+
+  const verifyUser = async (id) => {
+    setIsLoading(true);
+  
+    const updateData = {
+      verification: "1",
+    };
+  
+    try {
+      const response = await fetch(`http://127.0.0.1:3000/users/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updateData),
+      });
+  
+      if (response.ok) {
+        // Listing successfully updated
+        const updatedListing = await response.json();
+        alert(updatedListing)
+        alert("Verification Updated.")
+        navigate('/dashboard/app')
+  
+      } else {
+        // Error occurred during the update
+        const errorData = await response.json();
+        console.log(errorData);
+        alert("Error occurred on update.")
+        navigate('/dashboard/app')
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  
+    setIsLoading(false);
+  };
+
   return (
     <>
       <Helmet>
         <title> Users | IREAN </title>
       </Helmet>
+
+      {isLoading ? <LoadingSpinner /> : null}
+
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -303,13 +379,12 @@ setNewUserArray(profileDetails)
                 />
                 <TableBody> 
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, username, userrole, verification, profileimages , profileattachements, userphone, useremail } = row;
+                    const { id, username, userrole,verification, profileimages , profileattachements, userphone, useremail } = row;
                     console.log(profileimages)
                     console.log(typeof(profileimages))
                     const selectedUser = selected.indexOf(username) !== -1;
                     const avatarUrl = profileimages && profileimages.url ? profileimages.url : 'https://res.cloudinary.com/dqlqmfjkt/image/upload/v1684488675/logo_ni8n0u.svg';
                     const attachUrl = profileattachements && profileattachements.url ? profileattachements.url : 'https://res.cloudinary.com/dqlqmfjkt/image/upload/v1684488675/logo_ni8n0u.svg';
-                    const verificationStatus = verification ? "Yes" : "Pending";
                     const emailProf = useremail 
                     const phoneProf = userphone
 
@@ -339,7 +414,27 @@ setNewUserArray(profileDetails)
                         }
                         </TableCell>
 
-                        <TableCell align="left">{verificationStatus}</TableCell>
+                        <TableCell align="left">
+                        {verification === null && 
+  <LoadingButton color='orange' variant='contained' onClick={() => {
+    unverifyUser(id)
+  }}>                          No
+                          </LoadingButton>
+                          }
+                          {verification === "0" && 
+  <LoadingButton color='orange' variant='contained' onClick={() => {
+    verifyUser(id)
+  }}>                            No
+                          </LoadingButton>
+                          }
+                           {verification === "1" && 
+                          <LoadingButton variant='contained' onClick={() => {
+                            unverifyUser(id)
+                          }}>
+                          Yes
+                          </LoadingButton>
+                          }
+                        </TableCell>
 
                         <TableCell align="left">{emailProf}</TableCell>
 
@@ -352,9 +447,8 @@ setNewUserArray(profileDetails)
                         }}>
                          Preview
                         </LoadingButton>
-
                         </TableCell>
-
+                  
 
                         {/* <TableCell align="left">
                           <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
@@ -432,10 +526,15 @@ setNewUserArray(profileDetails)
           },
         }}
       >
-        <MenuItem>
-          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
-          Edit
+        <MenuItem onClick={() => {
+            // edit verification status of user 
+            
+          }}>
+          <Iconify  icon={'eva:edit-fill'} sx={{ mr: 2 }} />
+          Verify User 
         </MenuItem>
+
+
 
         <MenuItem sx={{ color: 'error.main' }}>
           <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />

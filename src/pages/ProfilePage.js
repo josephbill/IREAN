@@ -56,6 +56,7 @@ fetch("http://127.0.0.1:3000/profiles", {
        // alert(response.msg)
        setIsLoading(false)
        alert(response.msg)
+       navigate('/dashboard/viewProfile')
     } else {
       setIsLoading(false)
       alert("process error, kindly check all fields and retry process")
