@@ -9,36 +9,35 @@ import Iconify from '../../components/iconify';
 import { ProductSort, ProductList, ProductCartWidget, ProductFilterSidebar } from '../../sections/@dashboard/products';
 // mock
 import PRODUCTS from '../../_mock/products';
+import AgentsList from '../../sections/@dashboard/agents/AgentsList';
 
 
 // ----------------------------------------------------------------------
 
-export default function ProductsPage() {
+export default function AgentsProfiles() {
   const [openFilter, setOpenFilter] = useState(false);
-  const [listings,setListings] = useState([]);
-
+  const [agentProfiles,setAgentProfiles] = useState([]);
   
-  let listingArray  = []
-  useEffect(() => {
- 
-    const getListings = async () => {
-        try {
-          const response = await fetch('http://localhost:3000/listings', {
-            method: 'GET',
-            credentials: 'include',
-          });
-          const data = await response.json();
-        listingArray = data
-        console.log(listingArray)
-        setListings(listingArray)
-       
-        } catch (error) {
-          console.log('API error:', error);
-        }
-      };
-      getListings();
-
-}, [])
+  let agentsArray  = []
+ // get agents
+ useEffect(() => {
+    const payload = {
+      role : 2
+    }
+    fetch("http://127.0.0.1:3000/users/count_by_role",{
+      method: "POST",
+      headers: {
+        "Content-Type" : "application/json"
+      },
+      body: JSON.stringify(payload)
+    
+    }).then(response => response.json())
+    .then(response => {
+      console.log(response)
+      agentsArray = response.records
+      setAgentProfiles(agentsArray)
+    })
+  },[])
 
   const handleOpenFilter = () => {
     setOpenFilter(true);
@@ -53,11 +52,11 @@ export default function ProductsPage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard:Listings | IREAN </title>
+        <title> Agent Profiles | IREAN </title>
       </Helmet>
       <Container>
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Listings 
+         Real Estate Agent Profiles 
         </Typography>
 
         <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
@@ -68,16 +67,15 @@ export default function ProductsPage() {
               onCloseFilter={handleCloseFilter}
             />
             {/* <ProductSort /> */}
-            <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
+            {/* <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
             onClick={() => navigate('/dashboard/listings')}
           >
             Add Listing
-          </Button>
+          </Button> */}
           </Stack>
         </Stack>
 
-        <ProductList products={listings} />
-        <ProductCartWidget />
+        <AgentsList agents={agentProfiles} />
       </Container>
     </>
   );

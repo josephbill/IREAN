@@ -17,6 +17,11 @@ const navConfig = [
     icon: icon('ic_user'),
   },
   {
+    title: 'Real Estate Agent Profiles',
+    path: '/dashboard/agentsview',
+    icon: icon('ic_user'),
+  },
+  {
     title: 'Listings',
     path: '/dashboard/products',
     icon: icon('ic_cart'),

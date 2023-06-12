@@ -60,11 +60,14 @@ export default function ShopProductCard({ product }) {
           >
             {listingtype}
           </Label>
+          
         )}
+        
         <StyledProductImg alt={heading} src={product.photos[0].url} />
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
+        
         <Link color="inherit" underline="hover">
           <Typography variant="subtitle2" noWrap>
             {heading}
@@ -133,28 +136,40 @@ export default function ShopProductCard({ product }) {
          </IconButton>
         }
 
+
+
         {leadstatus === "Hot" &&
              <IconButton
              onClick={goToEdits}  
              >
-              <Typography variant='h6' style={{ color: 'red' }}>Hot Listing</Typography>
+              <span style={{ fontSize: 20, color: 'red' }}>Hot Listing</span>
            </IconButton>
         }
         {leadstatus === "Warm" && 
            <IconButton
            onClick={goToEdits}
            >
-            <Typography variant='h6' style={{ color: '#7E57C2' }}>Warm Listing</Typography>
+            <span style={{ fontSize: 20, color: '#7E57C2' }}>Warm Listing</span>
          </IconButton>
         }
         {leadstatus === "Cold" && 
            <IconButton
            onClick={goToEdits}
            >
-            <Typography variant='h6' style={{ color: '#42A5F5' }}>Cold Listing</Typography>
+            <span style={{ fontSize: 20, color: '#42A5F5' }}>Cold Listing</span>
          </IconButton>
         }
+      
 
+        </Stack>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+        {product.agent_id !== null && 
+           <IconButton
+           onClick={goToEdits}
+           >
+      <StyledProductImg src="../../../../assets/images/avatars/realagents.png" alt="verified" />
+         </IconButton>
+        }
         </Stack>
       </Stack>
     </Card>

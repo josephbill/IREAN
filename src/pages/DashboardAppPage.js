@@ -189,16 +189,10 @@ function getListingsCount() {
           <>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Listings" total={adminCount} icon={'ant-design:house'} color='info' />
+            <AppWidgetSummary title="IREAN Listings" total={listingCount} icon={'ant-design:house'} color='info' />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Leads" total={adminCount} icon={'ant-design:house'} color='error' />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Requests" total={adminCount} icon={'ant-design:house'} color='warning' />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Saved" total={adminCount} icon={'ant-design:house'} color='success' />
+            <AppWidgetSummary title="Assigned Listings" total={adminCount} icon={'ant-design:house'} color='error' />
           </Grid>
         </Grid>
           </>

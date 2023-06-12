@@ -1,7 +1,7 @@
 
 // @mui
 import { Helmet } from 'react-helmet-async';
-import { useState,useRef } from 'react';
+import { useState,useRef, useEffect } from 'react';
 import { useNavigate,useLocation } from 'react-router-dom';
 import { Link, Stack, IconButton, InputAdornment, Container,TextField, Checkbox, Select,Button, MenuItem ,Typography} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -14,22 +14,58 @@ export default function AdminEditListing() {
     const navigate = useNavigate()
     const location = useLocation();
 
-    const [verification, setVerification] = useState('');
-    const [leadStatus, setLeadStatus] = useState('');
+    const [verification, setVerification] = useState(null);
+    const [leadStatus, setLeadStatus] = useState(null);
+    const [selectedAgents, setSelectedAgents] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [realEstateAgents, setAgents] = useState([]);
 
-
+    let userTwo = []
     const products = location.state?.products;
+
+    // get agents
+    useEffect(() => {
+      const payload = {
+        role : 2
+      }
+      fetch("http://127.0.0.1:3000/users/count_by_role",{
+        method: "POST",
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        body: JSON.stringify(payload)
+      
+      }).then(response => response.json())
+      .then(response => {
+        console.log(response)
+        userTwo = response.records
+        const result = userTwo.filter(user => {
+         return user.verification === "1"
+        })
+        setAgents(result)
+        console.log(realEstateAgents)
+      })
+    },[])
+
+    const checkverified = (users) => {
+       if(users.verification === "1"){
+          return users
+       }
+       return users;
+    }
 
     // console.log(products)
 
-  const handleVerificationChange = (e) => {
+const handleVerificationChange = (e) => {
     setVerification(e.target.value);
 };
 
 const handleleadChange = (e) => {
     setLeadStatus(e.target.value);
+};
 
+const handleAgentChange = (e) => {
+  setSelectedAgents(e.target.value);
 };
 
 
@@ -39,7 +75,7 @@ const updateListing = async (leadStatus,verification,updateproducts) => {
   const updateData = {
     leadstatus: leadStatus,
     verifiedstatus: verification,
-    agent_id: null
+    agent_id: selectedAgents
   };
 
   try {
@@ -74,8 +110,10 @@ const updateListing = async (leadStatus,verification,updateproducts) => {
 
 
 
-
-  return (
+const verifiedUsers = realEstateAgents.filter(user => user.verification === 1);
+console.log("VERUIFIED")
+console.log(verifiedUsers)
+return (
     <>
        <Helmet>
         <title> Edit Listing | IREAN </title>
@@ -125,6 +163,28 @@ const updateListing = async (leadStatus,verification,updateproducts) => {
           <MenuItem value="Warm">Warm</MenuItem>
           <MenuItem value="Cold">Cold</MenuItem>
         </Select>
+
+
+      {realEstateAgents.length > 0 && ( // Render the select component when userTwo has data
+      <>
+            <Typography>Attach agent to listing</Typography>
+        <Select
+          labelId="listing-agent-label"
+          id="agent-id"
+          label="Real Estate Agent"
+          onChange={handleAgentChange}
+          value={selectedAgents}
+        >
+          {realEstateAgents.map(user => (
+            <MenuItem key={user.id} value={user.id}>{user.username}</MenuItem>
+          ))}
+          {realEstateAgents === []&& (
+             <Typography>Unverified Agents</Typography>
+          )} 
+        </Select>
+      </>
+           
+      )}
 
         <LoadingButton fullWidth size="medium" type="submit" variant="contained" onClick={() => {
             // function to update listing based off its id 

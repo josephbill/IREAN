@@ -18,6 +18,7 @@ import ViewProfile from './pages/ViewProfile';
 import UpdateProfile from './pages/UpdateProfile';
 import SeeListing from './pages/ListingsPages/SeeListing';
 import AdminEditListing from './pages/ListingsPages/AdminEditListing';
+import AgentsProfiles from './pages/AgentsPages/AgentsProfile';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -39,8 +40,12 @@ export default function Router() {
         { path: 'profilepage', element: <ProfilePage /> },
         { path: 'viewprofile', element: <ViewProfile /> },
         { path: 'updateprofile', element: <UpdateProfile /> },
-        {path: 'listings' , element: <ListingForm/>}
+        {path: 'listings' , element: <ListingForm/>},
+        {path: 'agentsview', element: <AgentsProfiles/>
+      }
       ],
+    },
+    {
     },
     {
        path: '/product/:id', element: <SeeListing /> 
