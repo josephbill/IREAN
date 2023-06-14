@@ -129,7 +129,7 @@ export default function UserPage() {
  
     const getUsers = async () => {
         try {
-          const response = await fetch('http://localhost:3000/users', {
+          const response = await fetch('https://irean.onrender.com/users', {
             method: 'GET',
             credentials: 'include',
           });
@@ -272,7 +272,7 @@ setNewUserArray(profileDetails)
     };
   
     try {
-      const response = await fetch(`http://127.0.0.1:3000/users/${id}`, {
+      const response = await fetch(`https://irean.onrender.com/users/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -309,7 +309,7 @@ setNewUserArray(profileDetails)
     };
   
     try {
-      const response = await fetch(`http://127.0.0.1:3000/users/${id}`, {
+      const response = await fetch(`https://irean.onrender.com/users/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -28,7 +28,7 @@ export default function AdminEditListing() {
       const payload = {
         role : 2
       }
-      fetch("http://127.0.0.1:3000/users/count_by_role",{
+      fetch("https://irean.onrender.com/users/count_by_role",{
         method: "POST",
         headers: {
           "Content-Type" : "application/json"
@@ -79,7 +79,7 @@ const updateListing = async (leadStatus,verification,updateproducts) => {
   };
 
   try {
-    const response = await fetch(`http://127.0.0.1:3000/listings/${updateproducts.id}`, {
+    const response = await fetch(`https://irean.onrender.com/listings/${updateproducts.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

@@ -31,7 +31,7 @@ export default function SignUPForm() {
     }
     console.log(payload)
 
-    fetch("http://127.0.0.1:3000/users",{
+    fetch("https://irean.onrender.com/users",{
       method: "POST",
       body: JSON.stringify(payload),
       headers: {

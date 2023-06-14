@@ -51,7 +51,7 @@ if (value === null) {
   console.log(`The value in local storage is ${value}`);
   const checkLoginStatus = async () => {
     try {
-      fetch("http://127.0.0.1:3000/users",{
+      fetch("https://irean.onrender.com/users",{
         method : "GET",
         credentials : "include"
       }).then(response => response.json())

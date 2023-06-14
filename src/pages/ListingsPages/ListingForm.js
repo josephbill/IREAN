@@ -104,7 +104,7 @@ export default function ListingForm() {
         console.log(listingsDetails.videos.length);
 
         try {
-            const response = await fetch('http://localhost:3000/listings', {
+            const response = await fetch('https://irean.onrender.com/listings', {
                 method: 'POST',
                 body: formData
             });

@@ -54,7 +54,7 @@ function getAdminCount(){
     }
     console.log("------------------")
     console.log(payload)
-    fetch("http://127.0.0.1:3000/users/count_by_role",{
+    fetch("https://irean.onrender.com/users/count_by_role",{
       method: "POST",
       headers: {
         "Content-Type" : "application/json"
@@ -108,7 +108,7 @@ function getAdminCount(){
 
 
 function getListingsCount() {
-  fetch("http://127.0.0.1:3000/listings/count",{
+  fetch("https://irean.onrender.com/listings/count",{
     method: "POST",
     headers: {
       "Content-Type" : "application/json"

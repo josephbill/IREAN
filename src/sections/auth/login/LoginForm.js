@@ -31,7 +31,7 @@ export default function LoginForm() {
         }
     console.log(payload)
 
-    fetch("http://127.0.0.1:3000/login",{
+    fetch("https://irean.onrender.com/login",{
       method: "POST",
       body: JSON.stringify(payload),
       headers: {

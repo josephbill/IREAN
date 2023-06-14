@@ -44,7 +44,7 @@ export default function UpdateProfile() {
   formData.append("profileattachements", profileAttachment);
 
   // console.log(Object.fromEntries(formData));
-fetch("http://127.0.0.1:3000/profiles/1", {
+fetch("https://irean.onrender.com/profiles/1", {
 method: "PUT",
 body: formData
 })

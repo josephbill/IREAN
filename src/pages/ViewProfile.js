@@ -30,7 +30,7 @@ export default function ViewProfile() {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:3000/profiles/${userid}`); // Append userId to the URL
+            const response = await fetch(`https://irean.onrender.com/profiles/${userid}`); // Append userId to the URL
             const data = await response.json();
           console.log(data.user.useremail); // Do something with the fetched data
           savetoState(data);

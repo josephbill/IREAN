@@ -23,7 +23,7 @@ export default function ProductList({other}) {
     useEffect(() => {
       const fetchData = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:3000/listings`); // Append userId to the URL
+            const response = await fetch(`https://irean.onrender.com/listings`); // Append userId to the URL
             const data = await response.json();
           console.log(data); // Do something with the fetched data
           savetoState(data)
