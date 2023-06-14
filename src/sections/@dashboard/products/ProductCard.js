@@ -95,7 +95,7 @@ export default function ShopProductCard({ product }) {
         </Stack>
         <Stack>
         <Button variant="contained" color='orange' startIcon={<Iconify icon="fa-solid:star" />}
-            onClick={goToEdits}
+            onClick={handleSeeMore}
           >
             View Listing
           </Button>
