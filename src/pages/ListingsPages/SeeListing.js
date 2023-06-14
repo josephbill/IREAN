@@ -18,7 +18,7 @@ export default function SeeListing() {
     const location = useLocation();
 
 
-    const products = location.state?.product;
+    const products = location.state?.products;
 
 // Now you can access the values in the product object
 console.log(products);
