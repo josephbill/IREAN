@@ -25,7 +25,6 @@ export default function ProductsPage() {
         try {
           const response = await fetch('https://irean.onrender.com/listings', {
             method: 'GET',
-            credentials: 'include',
           });
           const data = await response.json();
         listingArray = data
