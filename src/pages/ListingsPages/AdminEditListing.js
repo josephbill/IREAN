@@ -2,7 +2,7 @@
 // @mui
 import { Helmet } from 'react-helmet-async';
 import { useState,useRef, useEffect } from 'react';
-import { useNavigate,useLocation,useHistory } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import { Link, Stack, IconButton, InputAdornment, Container,TextField, Checkbox, Select,Button, MenuItem ,Typography} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import Iconify from '../../components/iconify/Iconify';
@@ -12,14 +12,7 @@ import LoadingSpinner from '../../utils/loadingSpinner';
 export default function AdminEditListing() {
 
     const navigate = useNavigate()
-    const location = useLocation();
-
-    const history = useHistory();
-
-    const handleGoBack = () => {
-      history.goBack();
-    };
-  
+    const location = useLocation()
 
     const [verification, setVerification] = useState(null);
     const [leadStatus, setLeadStatus] = useState(null);
