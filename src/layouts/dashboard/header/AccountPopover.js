@@ -55,7 +55,7 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
     // here hit the logout api
-    fetch("http://127.0.0.1:3000/logout",{
+    fetch("https://irean.onrender.com/logout",{
       method: "POST"
     }).then(response => response.json())
     .then(response => {
