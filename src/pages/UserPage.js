@@ -131,7 +131,6 @@ export default function UserPage() {
         try {
           const response = await fetch('https://irean.onrender.com/users', {
             method: 'GET',
-            credentials: 'include',
           });
           const data = await response.json();
         userArray = data.users
