@@ -62,7 +62,7 @@ export default function AccountPopover() {
       console.log("=========================================")
       console.log(response)
      localStorage.clear();
-      navigate('/login', { replace: true });
+      navigate('/', { replace: true });
       handleBack();
       window.location.reload()
 
