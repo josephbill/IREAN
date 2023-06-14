@@ -64,7 +64,7 @@ export default function AccountPopover() {
      localStorage.clear();
       navigate('/', { replace: true });
       handleBack();
-      window.location.reload()
+      // window.location.reload()
 
     })
 
