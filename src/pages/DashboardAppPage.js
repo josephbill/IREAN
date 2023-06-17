@@ -191,9 +191,7 @@ function getListingsCount() {
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="IREAN Listings" total={listingCount} icon={'ant-design:house'} color='info' />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Assigned Listings" total={adminCount} icon={'ant-design:house'} color='error' />
-          </Grid>
+      
         </Grid>
           </>
         )

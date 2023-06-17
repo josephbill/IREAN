@@ -20,30 +20,41 @@ export default function ProductList({other}) {
     const [products, setProducts] = useState([]);
 
 
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-            const response = await fetch(`https://irean.onrender.com/listings`); // Append userId to the URL
-            const data = await response.json();
-          console.log(data); // Do something with the fetched data
-          savetoState(data)
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
   
-      fetchData();
-    },[])
-
-    const savetoState = (data) => {
-      console.log(data);
-      if(data.status === 500 ){
-        const temp = []
-        setProducts(temp); // Update products state with fetched data
+    useEffect(() => {
+   
+      const getListings = async () => {
+          try {
+            const response = await fetch('https://irean.onrender.com/listings', {
+              method: 'GET',
+            });
+            const data = await response.json();
+            // populateListingsArrays(data.lisitings);
+            populateListingsArrays(data.listings)
+      
+          } catch (error) {
+            console.log('API error:', error);
+          }
+        };
+        getListings();
+  
+  }, [])
+  
+    const populateListingsArrays = (data) => {
+      const userrole = localStorage.getItem("userrole");
+      const userid = localStorage.getItem("userid");
+      if (userrole === "2") {
+        const agentArray = data.filter(obj => String(obj.agent_id) === String(userid));
+        setProducts(agentArray);
+    
       } else {
-      setProducts(data.listings); // Update products state with fetched data
+        const agentArray = data;
+        setProducts(agentArray);
+      
       }
-    };
+    }
+
+
   
     return (
       <Grid container spacing={3}>

@@ -26,6 +26,7 @@ console.log(products);
   // local storage item 
   const username = localStorage.getItem("username")
   const userid = localStorage.getItem("userid")
+  const userrole = localStorage.getItem("userrole")
   const verification = localStorage.getItem("verification")
 
 
@@ -51,11 +52,18 @@ console.log(products);
           >
             Back to Listings
           </Button>
-          <Button variant="contained" color='orange' startIcon={<Iconify icon="eva:plus-fill" />}
+
+          {userrole === "0"  &&
+            <Button variant="contained" color='orange' startIcon={<Iconify icon="eva:plus-fill" />}
             onClick={() => navigate(`/modifyproduct/${products.id}`,{state: {products}})}
           >
             Edit Listing
           </Button>
+          }
+
+        
+        
+
           </Stack>
         </Stack>
 

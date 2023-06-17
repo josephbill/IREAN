@@ -17,6 +17,10 @@ export default function ProductsPage() {
   const [openFilter, setOpenFilter] = useState(false);
   const [listings,setListings] = useState([]);
 
+  // console.log("----------------------")
+  // console.log(localStorage.getItem('userid'))
+
+
   
   let listingArray  = []
   useEffect(() => {
@@ -27,10 +31,8 @@ export default function ProductsPage() {
             method: 'GET',
           });
           const data = await response.json();
-        listingArray = data
-        console.log(listingArray)
-        setListings(listingArray)
-       
+          populateListingsArrays(data);
+    
         } catch (error) {
           console.log('API error:', error);
         }
@@ -38,6 +40,25 @@ export default function ProductsPage() {
       getListings();
 
 }, [])
+
+  const populateListingsArrays = (data) => {
+    const userid = localStorage.getItem("userid")
+
+    const userrole = localStorage.getItem("userrole")
+
+
+    if(userrole === 2){
+      let agentArray = data
+      agentArray = agentArray.filter(obj => obj.agent_id === userid);
+      // alert(agentArray)
+      setListings(agentArray)
+    } else {
+      listingArray = data
+      console.log(listingArray)
+      setListings(listingArray)
+     
+    }
+  }
 
   const handleOpenFilter = () => {
     setOpenFilter(true);

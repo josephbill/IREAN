@@ -33,13 +33,13 @@ export default function LoginForm() {
 
     fetch("https://irean.onrender.com/login",{
       method: "POST",
-      body: JSON.stringify(payload),
       headers: {
             "Content-Type" : "application/json"
-      }
+      },
+      body: JSON.stringify(payload),
     }).then(response =>response.json())
     .then(response => {
-      console.log(JSON.stringify(response))
+      console.log(response)
       console.log("User role is -------------------------")
       console.log(response.user.userrole) 
       if(response.logged_in){
