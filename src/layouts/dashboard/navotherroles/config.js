@@ -18,7 +18,7 @@ const navConfigRoles = [
   },
   {
     title: 'Profile',
-    path: '/dashboard/profilePage',
+    path: '/dashboard/viewprofile',
     icon: icon('ic_user'),
   },
 ];

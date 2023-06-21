@@ -65,7 +65,19 @@ export default function ViewProfile() {
         
       <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
           <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
-            <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
+            <Button color='warning' variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => navigate('/dashboard/updateprofile')}
+          >
+            Update Profile
+          </Button>
+
+          <Button color='success' variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => navigate('/dashboard/profilePage')}
+          >
+            Submit New Profile
+          </Button>
+
+          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
             onClick={() => navigate('/dashboard/app')}
           >
             Back to Dashboard

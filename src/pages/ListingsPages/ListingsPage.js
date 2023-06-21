@@ -47,6 +47,7 @@ export default function ProductsPage() {
     const userrole = localStorage.getItem("userrole")
 
 
+
     if(userrole === 2){
       let agentArray = data
       agentArray = agentArray.filter(obj => obj.agent_id === userid);
@@ -70,6 +71,9 @@ export default function ProductsPage() {
 
   const navigate = useNavigate();
 
+  const verificationStatus = localStorage.getItem("verification")
+
+
   return (
     <>
       <Helmet>
@@ -82,22 +86,29 @@ export default function ProductsPage() {
 
         <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
           <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
-            <ProductFilterSidebar
+            {/* <ProductFilterSidebar
               openFilter={openFilter}
               onOpenFilter={handleOpenFilter}
               onCloseFilter={handleCloseFilter}
-            />
+            /> */}
             {/* <ProductSort /> */}
+
+            {verificationStatus === "1" && 
+            
             <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
             onClick={() => navigate('/dashboard/listings')}
           >
             Add Listing
           </Button>
+
+
+            }
+          
           </Stack>
         </Stack>
 
         <ProductList products={listings} />
-        <ProductCartWidget />
+        {/* <ProductCartWidget /> */}
       </Container>
     </>
   );

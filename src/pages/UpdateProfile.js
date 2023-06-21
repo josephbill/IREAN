@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 // @mui
 import { Link, Stack, IconButton, InputAdornment, Button, TextField, Checkbox, Select, MenuItem, InputLabel, Container, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // @mui
 import { LoadingButton } from '@mui/lab';
@@ -31,7 +31,40 @@ export default function UpdateProfile() {
   const verification = localStorage.getItem("verification")
 
 
+  const [attachmentPath,setAttachmentPath] = useState('');
+  const [profileImages,setProfileImages] = useState('');
+  const [useremail,setUseremail] = useState('');
+  const [userPhone,setUserPhone] = useState('')
+
+
  console.log(userid)
+
+
+ 
+ useEffect(() => {
+  const fetchData = async () => {
+      try {
+          const response = await fetch(`https://irean.onrender.com/profiles/${userid}`); // Append userId to the URL
+          const data = await response.json();
+          console.log("In update profile.......")
+        console.log(data.user.useremail); // Do something with the fetched data
+        savetoState(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+},[])
+
+
+const savetoState = (data) => {
+    setAttachmentPath(data.user.profileattachements.url)
+    setProfileImages(data.user.profileimages.url)
+    setUseremail(data.user.useremail)
+    setUserPhone(data.user.userphone)
+    console.log(attachmentPath,profileImages,useremail,userPhone)
+}
 
 
  const handleUpdate = () => {
@@ -109,20 +142,28 @@ body: formData
 
 
         <Stack>
-        <TextField name="email" label="Email Address" style={{
+        <Stack direction="row" alignItems="center"  mb={2}>
+
+         <span>*</span> <span style={{color: 'black'}}>{useremail}</span>
+         </Stack>
+        <TextField name="email" label="New Email Address" style={{
           marginBottom : 10
         }} onChange={e => setEmail(e.target.value)} />
-        <TextField name="phonenumber" label="Phone Number" style={{
+          <Stack direction="row" alignItems="center"  mb={1}>
+
+<span>*</span> <span style={{color: 'black'}}>{userPhone}</span>
+</Stack>
+        <TextField name="phonenumber" label="New Phone Number" style={{
           marginBottom : 10
         }} onChange={e => setPhoneNumber(e.target.value)} />
         <Typography variant='h6'>
-         Profile Image
+        Profile Images : <span style={{fontWeight: 'lighter', color: 'blue'}}>*{profileImages}</span>
         </Typography>
         <TextField type="file" name="profileimage" onChange={handleFileChange} style={{
           marginBottom : 10
         }}/>
         <Typography variant='h6'>
-         Profile Attachment 
+         Profile Attachment : <span style={{fontWeight: 'lighter', color: 'blue'}}>*{attachmentPath}</span>
         </Typography>
          <TextField type="file" name="profileattachment" onChange={handleAttachmentChange} style={{
           marginBottom : 10
