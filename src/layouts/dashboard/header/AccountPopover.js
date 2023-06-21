@@ -10,12 +10,19 @@ import account from '../../../_mock/account';
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
+    label: 'Dashboard',
     icon: 'eva:home-fill',
+    path: '/dashboard/app'
+  },
+  {
+    label: 'Listing',
+    icon: 'eva:home-fill',
+    path: '/dashboard/listings'
   },
   {
     label: 'Profile',
-    icon: 'eva:person-fill',
+    icon: 'eva:home-fill',
+    path: '/dashboard/viewprofile'
   },
   {
     label: 'Settings',
@@ -52,6 +59,9 @@ export default function AccountPopover() {
     setOpen(event.currentTarget);
   };
 
+  const handleClosePop = () => {
+    setOpen(null)
+  }
   const handleClose = () => {
     setOpen(null);
     // here hit the logout api
@@ -82,6 +92,8 @@ export default function AccountPopover() {
     setOpen(null);
   }
 
+
+
   return (
     <>
       <IconButton
@@ -107,7 +119,7 @@ export default function AccountPopover() {
       <Popover
         open={Boolean(open)}
         anchorEl={open}
-        onClose={handleClose}
+        onClose={handleClosePop}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         PaperProps={{
@@ -136,7 +148,7 @@ export default function AccountPopover() {
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={stayInPage}>
+            <MenuItem key={option.label} onClick={() => navigate(option.path)}>
               {option.label}
             </MenuItem>
           ))}
