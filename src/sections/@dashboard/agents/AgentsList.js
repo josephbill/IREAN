@@ -19,14 +19,18 @@ export default function AgentsList({agents}) {
     const [isLoading, setIsLoading] = useState(false);
 
 
+    console.log("In Agent list")
+    console.log(agents)
+
+
 
   
     return (
       <Grid container spacing={3}>
       {agents.length > 0 ? (
-        agents.map((product) => (
-          <Grid key={product.id} item xs={12} sm={6} md={3}>
-            <AgentsCard product={product} />
+        agents.map((agent) => (
+          <Grid key={agent.id} item xs={12} sm={6} md={3}>
+            <AgentsCard agent={agent} />
           </Grid>
         ))
       ) : (

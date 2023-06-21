@@ -27,19 +27,17 @@ const StyledProductImg = styled('img')({
 
 
 
-export default function AgentsCard({ product }) {
-  const {  profileAttachment, username,profile, userphone, useremail, verification ,profileimages,id} = product;
-  console.log(product)
+export default function AgentsCard({ agent }) {
+  const { username,userrole, verification,id,profile} = agent;
+  console.log("Agent card inside...........")
+  console.log(agent)
   const navigate = useNavigate()
-  console.log("SHOP PRODUCT")
-  console.log(product)
-  const products = product
 
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
-         <StyledProductImg alt={username} src={profile.profileimages.url} />
-      </Box>
+         <StyledProductImg alt={username} src={profile && profile.profileimages.url} />
+      </Box> 
 
       <Stack spacing={2} sx={{ p: 3 }}>
         
@@ -51,14 +49,14 @@ export default function AgentsCard({ product }) {
 
         <Link color="inherit" underline="hover">
           <Typography variant="subtitle2" noWrap>
-            {profile.userphone}
+          {profile && profile.userphone}
           </Typography>
         </Link>
 
 
         <Link color="inherit" underline="hover">
           <Typography variant="subtitle2" noWrap>
-          {profile.useremail}
+          {profile && profile.useremail}
           </Typography>
         </Link>
 
