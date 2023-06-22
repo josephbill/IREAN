@@ -26,6 +26,8 @@ export default function ViewProfile() {
   const userid = localStorage.getItem("userid")
   const verification = localStorage.getItem("verification")
 
+  alert(userid)
+
 
   useEffect(() => {
     const fetchData = async () => {

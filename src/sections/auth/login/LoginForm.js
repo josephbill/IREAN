@@ -60,7 +60,7 @@ export default function LoginForm() {
     console.log("role is -----------------")
      console.log(role)
       setIsLoading(false)
-        navigate('/dashboard', {
+        navigate('/dashboard/viewprofile', {
            replace: true,
           });
   }
