@@ -19,19 +19,25 @@ export default function ProfilePage() {
 
   const [phonenumber, setPhoneNumber] = useState('');
   const [profileImage,setProfileImage] = useState('');
+  const [agency,setAgency] = useState('IREAN');
+  const [bio,setBio] = useState('');
+  const [socials,setSocials] = useState('IREAN');
+
   const [profileAttachment,setProfileAttachment] = useState('');
   const [memberid, setMemberId] = useState('');
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
 
+
   // local storage item 
-  const username = localStorage.getItem("username")
-  const userid = localStorage.getItem("userid")
-  const verification = localStorage.getItem("verification")
+  const userid = localStorage.getItem("createdId")
+  const userrole = localStorage.getItem("userrole")
+  
 
 
- console.log(userid)
+  console.log(userid)
+ 
 
 
 
@@ -43,7 +49,10 @@ export default function ProfilePage() {
     formData.append("useremail", email);
     formData.append("profileimages", profileImage);
     formData.append("profileattachements", profileAttachment);
-  
+    formData.append("agency", agency);
+    formData.append("bio", bio);
+    formData.append("social_handles", socials);
+
     // console.log(Object.fromEntries(formData));
 fetch("https://irean.onrender.com/profiles", {
   method: "POST",
@@ -56,7 +65,7 @@ fetch("https://irean.onrender.com/profiles", {
        // alert(response.msg)
        setIsLoading(false)
        alert(response.msg)
-       navigate('/dashboard/viewProfile')
+       navigate('/login')
     } else {
       setIsLoading(false)
       alert("process error, kindly check all fields and retry process")
@@ -93,25 +102,31 @@ fetch("https://irean.onrender.com/profiles", {
 
       <Container>
 
+
+     {userrole === "0" && 
+     
+     <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
+     <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
+       <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
+       onClick={() => navigate('/dashboard/viewProfile')}
+     >
+       View Profile
+     </Button>
+     <Button variant="contained" color='warning' startIcon={<Iconify icon="eva:plus-fill" />}
+       onClick={() => navigate('/dashboard/updateprofile')}
+     >
+       Update Profile
+     </Button>
+     </Stack>
+   </Stack>
+     
+     }
         
-      <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
-          <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
-            <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
-            onClick={() => navigate('/dashboard/viewProfile')}
-          >
-            View Profile
-          </Button>
-          <Button variant="contained" color='warning' startIcon={<Iconify icon="eva:plus-fill" />}
-            onClick={() => navigate('/dashboard/updateprofile')}
-          >
-            Update Profile
-          </Button>
-          </Stack>
-        </Stack>
+     
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Update Profile
+            Create Profile
           </Typography>
         </Stack>
 
@@ -123,6 +138,10 @@ fetch("https://irean.onrender.com/profiles", {
         <TextField name="phonenumber" label="Phone Number" style={{
           marginBottom : 10
         }} onChange={e => setPhoneNumber(e.target.value)} />
+          <TextField name="bio" label="Brief Description About You." style={{
+          marginBottom : 10
+        }} onChange={e => setBio(e.target.value)} />
+       
         <Typography variant='h6'>
          Profile Image
         </Typography>

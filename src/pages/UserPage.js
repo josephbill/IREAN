@@ -77,7 +77,7 @@ function applySortFilter(array, comparator, query, roleQuery) {
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
-    return a[1] - b[1];
+    return b[1] - a[1];
   });
 
   if (query && roleQuery) {
@@ -319,7 +319,7 @@ setNewUserArray(profileDetails)
       if (response.ok) {
         // Listing successfully updated
         const updatedListing = await response.json();
-        alert(updatedListing)
+        console.log(updatedListing)
         alert("Verification Updated.")
         navigate('/dashboard/app')
   
@@ -416,7 +416,7 @@ setNewUserArray(profileDetails)
                         <TableCell align="left">
                         {verification === null && 
   <LoadingButton color='orange' variant='contained' onClick={() => {
-    unverifyUser(id)
+    verifyUser(id)
   }}>                          No
                           </LoadingButton>
                           }

@@ -106,8 +106,11 @@ export default function ProductsPage() {
           
           </Stack>
         </Stack>
-
-        <ProductList products={listings} />
+        {listings.length > 0 ? 
+                <ProductList products={listings} />
+          :
+          <Typography variant='h6'>No Listing Found</Typography>
+      }
         {/* <ProductCartWidget /> */}
       </Container>
     </>

@@ -23,33 +23,43 @@ export default function ViewProfile() {
 
   // local storage item 
   const username = localStorage.getItem("username")
-  const userid = localStorage.getItem("userid")
+  const userid = localStorage.getItem("createdId")
   const verification = localStorage.getItem("verification")
+  const userrole = localStorage.getItem("userrole")
 
-  alert(userid)
 
 
   useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const response = await fetch(`https://irean.onrender.com/profiles/${userid}`); // Append userId to the URL
-            const data = await response.json();
-          console.log(data.user.useremail); // Do something with the fetched data
-          savetoState(data);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
+
+  
+    const fetchData = () => {
+          fetch(`https://irean.onrender.com/users/${userid}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              // Add any additional headers if required
+            },
+          }).then(response => response.json()) 
+          .then(data => {
+              savetoState(data.user.profile)
+          
+          })
       };
   
       fetchData();
   },[])
 
 
+  const changeUI = () => {
+        alert("You need to update your profile.")
+        navigate("/dashboard/profilepage")
+  }
+
   const savetoState = (data) => {
-      setAttachmentPath(data.user.profileattachements.url)
-      setProfileImage(data.user.profileimages.url)
-      setUseremail(data.user.useremail)
-      setUserPhone(data.user.userphone)
+      setAttachmentPath(data.profileattachements.url)
+      setProfileImage(data.profileimages.url)
+      setUseremail(data.useremail)
+      setUserPhone(data.userphone)
       console.log(attachmentPath,profileImage,useremail,userPhone)
   }
  
@@ -73,12 +83,15 @@ export default function ViewProfile() {
             Update Profile
           </Button>
 
-          <Button color='success' variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
+          {userrole === "0" && 
+            <Button color='success' variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
             onClick={() => navigate('/dashboard/profilePage')}
           >
             Submit New Profile
           </Button>
 
+          }
+        
           <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}
             onClick={() => navigate('/dashboard/app')}
           >

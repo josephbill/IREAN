@@ -34,8 +34,11 @@ export default function UpdateProfile() {
   const [attachmentPath,setAttachmentPath] = useState('');
   const [profileImages,setProfileImages] = useState('');
   const [useremail,setUseremail] = useState('');
-  const [userPhone,setUserPhone] = useState('')
-
+  const [userPhone,setUserPhone] = useState('');
+  const [profileId, setProfileId] = useState('');
+  const [agency,setAgency] = useState('IREAN');
+  const [bio,setBio] = useState('');
+  const [socials,setSocials] = useState('IREAN');
 
  console.log(userid)
 
@@ -44,11 +47,11 @@ export default function UpdateProfile() {
  useEffect(() => {
   const fetchData = async () => {
       try {
-          const response = await fetch(`https://irean.onrender.com/profiles/${userid}`); // Append userId to the URL
+          const response = await fetch(`https://irean.onrender.com/users/${userid}`); // Append userId to the URL
           const data = await response.json();
           console.log("In update profile.......")
-        console.log(data.user.useremail); // Do something with the fetched data
-        savetoState(data);
+        console.log(data.user.profile.useremail); // Do something with the fetched data
+        savetoState(data.user.profile);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -59,40 +62,62 @@ export default function UpdateProfile() {
 
 
 const savetoState = (data) => {
-    setAttachmentPath(data.user.profileattachements.url)
-    setProfileImages(data.user.profileimages.url)
-    setUseremail(data.user.useremail)
-    setUserPhone(data.user.userphone)
-    console.log(attachmentPath,profileImages,useremail,userPhone)
+    setAttachmentPath(data.profileattachements.url)
+    setProfileImages(data.profileimages.url)
+    setUseremail(data.useremail)
+    setUserPhone(data.userphone)
+    setProfileId(data.id)
+    setBio(data.bio)
+    console.log(attachmentPath,profileImages,useremail,userPhone,profileId)
 }
 
 
- const handleUpdate = () => {
+const handleUpdateContact = () => {
   setIsLoading(true)
   const formData = new FormData();
-  formData.append("user_id", userid);
-  formData.append("userphone", phonenumber);
-  formData.append("useremail", email);
-  formData.append("profileimages", profileImage);
-  formData.append("profileattachements", profileAttachment);
+  formData.append("id", profileId);
+  formData.append("userphone", userPhone);
+  formData.append("useremail", useremail);
+  formData.append("agency", agency);
+  formData.append("bio", bio);
+  formData.append("social_handles", socials);
 
   // console.log(Object.fromEntries(formData));
-fetch("https://irean.onrender.com/profiles/1", {
+fetch(`https://irean.onrender.com/profiles/${profileId}`, {
 method: "PUT",
 body: formData
 })
 .then(response => response.json())
 .then(response => {
   console.log(response);
-  if(response.result){
-     // alert(response.msg)
-     setIsLoading(false)
-     alert(response.msg)
-  } else {
-    setIsLoading(false)
-    alert("process error, kindly check all fields and retry process")
-  }
+  setIsLoading(false)
+  alert("Contact Updated.")
 
+})
+.catch(error => {
+  setIsLoading(false)
+  console.log(error);
+  alert("An error occurred while processing the request.");
+});
+ };
+
+ const handleUpdate = () => {
+  setIsLoading(true)
+  const formData = new FormData();
+
+  formData.append("profileimages", profileImages);
+  formData.append("profileattachements", attachmentPath);
+
+  // console.log(Object.fromEntries(formData));
+fetch(`https://irean.onrender.com/profiles/${profileId}`, {
+method: "PUT",
+body: formData
+})
+.then(response => response.json())
+.then(response => {
+  console.log(response);
+  setIsLoading(false)
+  alert("Media Update Successful")
 })
 .catch(error => {
   setIsLoading(false)
@@ -104,12 +129,12 @@ body: formData
   
   const handleFileChange = (e) => {
     if (e.target.files) {
-    setProfileImage(e.target.files[0]);
+    setProfileImages(e.target.files[0]);
     }
   };
   const handleAttachmentChange = (e) => {
     if (e.target.files) {
-    setProfileAttachment(e.target.files[0]);
+    setAttachmentPath(e.target.files[0]);
     }
   };
 
@@ -144,34 +169,46 @@ body: formData
         <Stack>
         <Stack direction="row" alignItems="center"  mb={2}>
 
-         <span>*</span> <span style={{color: 'black'}}>{useremail}</span>
+         <span>*</span> <span style={{color: 'black'}}>Email</span>
          </Stack>
-        <TextField name="email" label="New Email Address" style={{
+        <TextField name="email"  style={{
           marginBottom : 10
-        }} onChange={e => setEmail(e.target.value)} />
+        }} onChange={e => setUseremail(e.target.value)} value={useremail} />
           <Stack direction="row" alignItems="center"  mb={1}>
 
-<span>*</span> <span style={{color: 'black'}}>{userPhone}</span>
+<span>*</span> <span style={{color: 'black'}}>Phone Number</span>
 </Stack>
-        <TextField name="phonenumber" label="New Phone Number" style={{
+        <TextField name="phonenumber"  style={{
           marginBottom : 10
-        }} onChange={e => setPhoneNumber(e.target.value)} />
-        <Typography variant='h6'>
-        Profile Images : <span style={{fontWeight: 'lighter', color: 'blue'}}>*{profileImages}</span>
+        }} onChange={e => setUserPhone(e.target.value)} value={userPhone} />
+
+<span style={{color: 'black'}}>*Bio</span>
+
+<TextField name="bio" value={bio}  style={{
+          marginBottom : 10
+        }} onChange={e => setBio(e.target.value)} />
+
+     <LoadingButton color='warning' size="medium" type="submit" variant="contained" onClick={handleUpdateContact}>
+        Update Profile Contact
+      </LoadingButton>
+
+
+      <Typography variant='h6' style={{marginTop: 5}}>
+        Profile Image*
         </Typography>
         <TextField type="file" name="profileimage" onChange={handleFileChange} style={{
           marginBottom : 10
-        }}/>
+        }} />
         <Typography variant='h6'>
-         Profile Attachment : <span style={{fontWeight: 'lighter', color: 'blue'}}>*{attachmentPath}</span>
+         Profile Attachment*
         </Typography>
          <TextField type="file" name="profileattachment" onChange={handleAttachmentChange} style={{
           marginBottom : 10
         }}/>
         </Stack>
 
-      <LoadingButton fullWidth color='warning' size="medium" type="submit" variant="contained" onClick={handleUpdate}>
-        Update Profile
+      <LoadingButton color='warning' size="medium" type="submit" variant="contained" onClick={handleUpdate}>
+        Update Profile Media
       </LoadingButton>
       </Container>
     </>

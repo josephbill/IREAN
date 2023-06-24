@@ -52,8 +52,7 @@ if (value === null) {
   const checkLoginStatus = async () => {
     try {
       fetch("https://irean.onrender.com/users",{
-        method : "GET",
-        credentials : "include"
+        method : "GET"
       }).then(response => response.json())
       .then(response => {
         console.log(response)

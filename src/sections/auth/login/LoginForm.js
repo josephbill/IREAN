@@ -45,10 +45,12 @@ export default function LoginForm() {
       if(response.logged_in){
         localStorage.setItem("user", null);
         localStorage.setItem("userid",response.user.id)
+        localStorage.setItem("createdId",response.user.id)
         localStorage.setItem("username",response.user.username)
         localStorage.setItem("verification",response.user.verification)
         localStorage.setItem("userrole",response.user.userrole)
         changeUi(response.user.userrole);
+
       }
     }).catch(error => {
       setIsLoading(false)
@@ -60,7 +62,7 @@ export default function LoginForm() {
     console.log("role is -----------------")
      console.log(role)
       setIsLoading(false)
-        navigate('/dashboard/viewprofile', {
+        navigate('/dashboard/app ', {
            replace: true,
           });
   }

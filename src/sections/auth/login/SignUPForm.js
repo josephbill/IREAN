@@ -43,7 +43,11 @@ export default function SignUPForm() {
       console.log(response)
       if(response.status === "created"){
         alert("Account Created Successfully")
-        navigate('/login', { replace: true });
+        const userid = response.user.id
+        const userrole = response.user.userrole
+        localStorage.setItem("createdId", userid);
+        localStorage.setItem("userrole",userrole)
+        navigate('/dashboard/profilepage', { replace: true });
       } else {
         console.log(response.statusText)
         alert("Fill in all fields to complete account creation.")
