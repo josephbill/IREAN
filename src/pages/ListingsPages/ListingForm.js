@@ -128,11 +128,10 @@ export default function ListingForm() {
                 });
             } else {
                 // Handle error
-                alert("Failed to create the listing, Complete your profile details.");
-                console.error('Failed to create listing');
+                console.log('Listing created in else block');
                 navigate('/dashboard/products', {
-                  replace: true,
-              });
+                    replace: true,
+                });
             }
         } catch (error) {
             alert("Network Error");
