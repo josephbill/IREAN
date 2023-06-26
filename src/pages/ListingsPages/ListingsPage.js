@@ -17,6 +17,64 @@ export default function ProductsPage() {
   const [openFilter, setOpenFilter] = useState(false);
   const [listings,setListings] = useState([]);
 
+  const tempListing = [
+    {
+			"id": 0,
+			"user_id": 1,
+			"listingtype": "For Sale",
+			"proptype": "Listings Not Posted Yet",
+			"location": "Nairobi",
+			"streetname": "Moi Avenue 1A",
+			"streetnumber": "123A",
+			"heading": "Listings Not Posted Yet",
+			"description": "IREAN System",
+			"price": "00",
+			"created_at": "2023-06-25T21:15:52.365Z",
+			"updated_at": "2023-06-25T21:15:52.365Z",
+			"photos": [
+				{
+					"url": "http://res.cloudinary.com/dqlqmfjkt/image/upload/v1687727756/vijmhurznjmuu96xf7uq.png"
+				},
+				{
+					"url": "http://res.cloudinary.com/dqlqmfjkt/image/upload/v1687727757/wf4cwdorvmef7dqbhxjr.jpg"
+				}
+			],
+			"plans": [
+				{
+					"url": "http://res.cloudinary.com/dqlqmfjkt/image/upload/v1687727755/dhsicyugvhqwjyfgmyib.jpg"
+				},
+				{
+					"url": "http://res.cloudinary.com/dqlqmfjkt/image/upload/v1687727755/qxxfix8iegxkpmfb7nzi.jpg"
+				}
+			],
+			"videos": [
+				{
+					"url": "http://res.cloudinary.com/dqlqmfjkt/video/upload/v1687727753/gkm0wnorkvnxbxeknhqo.mp4"
+				}
+			],
+			"agent_id": null,
+			"leadstatus": null,
+			"salestatus": null,
+			"verifiedstatus": null,
+			"agency": null,
+			"agent": null,
+			"bedrooms": null,
+			"washrooms": null,
+			"others": null,
+			"prospects": null,
+			"user": {
+				"id": 1,
+				"username": "Joseph Admin",
+				"userrole": "0",
+				"password_digest": "$2a$12$O5b5QpOi1glhzUAC1CrS1OfVQXcHp0CgUtCVC1ojcJON82Bkbj3B6",
+				"verification": "1",
+				"created_at": "2023-06-25T20:33:41.366Z",
+				"updated_at": "2023-06-25T20:35:36.752Z"
+			}
+		}
+  ]
+
+
   // console.log("----------------------")
   // console.log(localStorage.getItem('userid'))
 
@@ -46,6 +104,8 @@ export default function ProductsPage() {
 
     const userrole = localStorage.getItem("userrole")
 
+    const verification = localStorage.getItem("verification")
+
 
 
     if(userrole === 2){
@@ -57,7 +117,6 @@ export default function ProductsPage() {
       listingArray = data
       console.log(listingArray)
       setListings(listingArray)
-     
     }
   }
 
@@ -72,7 +131,6 @@ export default function ProductsPage() {
   const navigate = useNavigate();
 
   const verificationStatus = localStorage.getItem("verification")
-
 
   return (
     <>
@@ -106,11 +164,14 @@ export default function ProductsPage() {
           
           </Stack>
         </Stack>
-        {listings.length > 0 ? 
-                <ProductList products={listings} />
-          :
-          <Typography variant='h6'>No Listing Found</Typography>
-      }
+
+
+        {listings.length === 0 ? (
+          <Typography variant="body1">No listings available</Typography>
+        ) : (
+          <ProductList products={listings} />
+        )}
+
         {/* <ProductCartWidget /> */}
       </Container>
     </>

@@ -23,6 +23,8 @@ export default function AdminEditListing() {
     let userTwo = []
     const products = location.state?.products;
 
+  
+
     // get agents
     useEffect(() => {
       const payload = {
@@ -45,6 +47,38 @@ export default function AdminEditListing() {
         setAgents(result)
         console.log(realEstateAgents)
       })
+    },[])
+
+
+    useEffect(() => { 
+      const fetchListingsDetails = () => {
+        fetch(`https://irean.onrender.com/listings/${products.id}`,{
+
+        }).then(response => response.json())
+        .then(response => {
+          console.log(response)
+          const verify  = response.listing.verifiedstatus
+          if(verify === 0){
+            setVerification("0")
+          } else {
+            setVerification("1")
+          }
+          
+          const leadstatus = response.listing.leadstatus
+          if(leadstatus === 'hot'){
+             setLeadStatus("Hot")
+          } else if (leadstatus === 'warm'){
+             setLeadStatus("Warm")
+          } else {
+            setLeadStatus("Cold")
+          }
+          setSelectedAgents(response.listing.agent_id)
+
+        }).catch(error => {
+          alert(error)
+        })
+      }
+      fetchListingsDetails()
     },[])
 
     const checkverified = (users) => {
@@ -72,10 +106,13 @@ const handleAgentChange = (e) => {
 const updateListing = async (leadStatus,verification,updateproducts) => {
   setIsLoading(true);
 
+  const prospectsArray = []
+
   const updateData = {
     leadstatus: leadStatus,
     verifiedstatus: verification,
-    agent_id: selectedAgents
+    agent_id: selectedAgents,
+    prospects: "prospectsArray"
   };
 
   try {

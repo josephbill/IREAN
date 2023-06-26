@@ -1,13 +1,24 @@
 
 // @mui
+
 import { Link, Stack , InputAdornment, TextField, Checkbox, Select, MenuItem ,Typography, InputLabel} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { useState } from 'react';
+import { useState} from 'react';
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+import Autocomplete from '../../utils/Autocomplete';
+
 // components
 
 export default function ListingLocation({ values, handleChange, nextStep, prevStep }) {
+
   const [proptype, setPropType] = useState('');
   const [listingtype, setListingType] = useState('');
+
+  const [location, setLocation] = useState({ label: 'Nairobi' });
+  const [streetName,setStreetName] = useState(null)
+  const [streetNumber,setStreetNumber] = useState(null)
+
+
 
   const continueHandler = (e) => {
     e.preventDefault();
@@ -19,8 +30,10 @@ export default function ListingLocation({ values, handleChange, nextStep, prevSt
     prevStep();
   };
 
-  const handleLocationChange = (e) => {
-    handleChange('location')(e);
+  const handleLocationChange = (value) => {
+    // Call handleChange with the correct location value
+    const locationValue = value ? value.label : ''; // Extract the location label from the selected value
+    handleChange('location')(locationValue);
   };
 
   const handleStreetNameChange = (e) => {
@@ -41,9 +54,11 @@ export default function ListingLocation({ values, handleChange, nextStep, prevSt
     handleChange('proptype')(e);
   };
 
+  
+
   return (
     <>
-      <Typography variant="h4">Location</Typography>
+      <Typography variant="h6">Location</Typography>
       <Stack spacing={3}>
         <InputLabel>Listing Type</InputLabel>
         <Select
@@ -82,9 +97,18 @@ export default function ListingLocation({ values, handleChange, nextStep, prevSt
           <MenuItem value="Residential">Residential Land</MenuItem>
           <MenuItem value="Agricultural">Agricultural Land</MenuItem>
         </Select>
-        <TextField label="Location" onChange={handleLocationChange} />
-        <TextField label="Street Name" onChange={handleStreetNameChange} />
-        <TextField label="Street Number" onChange={handleStreetNumberChange} />
+        {/* <TextField label="Location" onChange={handleLocationChange} /> */}
+        {/* <Typography>Location : (Include Street Name and Number)</Typography> */}
+        <GooglePlacesAutocomplete selectProps={{
+           onChange: handleLocationChange,
+           isClearable: true, 
+           placeholder: 'Enter Location : (Include Street Name and Street Number)'
+        }} apiKey='AIzaSyCcaeipde61-0queqwfcR-KZEKOMu2X1pE'/>
+      
+
+   
+
+
 
         <LoadingButton fullWidth size="medium" type="submit" variant="contained" onClick={continueHandler}>
           Listing Details

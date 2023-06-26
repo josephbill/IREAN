@@ -58,17 +58,20 @@ export default function ProductList({other}) {
   
     return (
       <Grid container spacing={3}>
-      {products.length > 0 ? (
+      {products.length === 0 ? 
+      (
+        <Grid item xs={12}>
+          <Typography>No Listings found</Typography>
+        </Grid>
+      )
+      :
+      (
         products.map((product) => (
           <Grid key={product.id} item xs={12} sm={6} md={3}>
             <ShopProductCard product={product} />
           </Grid>
         ))
-      ) : (
-        <Grid item xs={12}>
-          <Typography>No Listings found</Typography>
-        </Grid>
-      )}
+      ) }
     </Grid>
     );
 }

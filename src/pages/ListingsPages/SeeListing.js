@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 // @mui
-import { Link, Stack, IconButton, InputAdornment,Grid, Button, TextField, Checkbox, Select,Divider, MenuItem, InputLabel,List,ListItem,ListItemText, Container, Typography } from '@mui/material';
+import { Link, Stack, Box, IconButton,ListItemAvatar, InputAdornment,Grid, Button,ImageList, TextField, Checkbox, Select,Divider, MenuItem, InputLabel,List,ListItem,ListItemText, Container, Typography } from '@mui/material';
 import { useState,useEffect } from 'react';
 import { useNavigate,useLocation } from 'react-router-dom';
 // @mui
@@ -34,6 +34,138 @@ console.log(products);
   const newDate = new Date(date)
   const formatDate = newDate.toISOString().split('T')[0];
 
+
+  const RenderOutVideos = () => {
+    const array = products.videos;
+    return (
+      <>
+        {array.map((video, index) => (     
+          <Grid container spacing={1}>
+              <Grid>
+              <video  style={{width: 550, height: 200, borderRadius: 20}} controls>
+                  <source src={video.url}  />
+                  {/* Add a track element for captions */}
+                  <track kind="captions" srcLang="en" label="English" />
+                </video>
+              </Grid>
+          </Grid>
+       
+        ))}
+      </>
+    );
+  };
+
+
+  const RenderOutPlans = () => {
+    const array = products.plans;
+  
+    const handleImageClick = (url) => {
+      window.open(url, '_blank');
+    };
+  
+    return (
+      <Box display="flex" flexWrap="wrap" justifyContent="start">
+        {array.map((image, index) => (
+          <Box key={index} m={1} style={{ width: '150px' }}>
+            <div style={{ position: 'relative', paddingTop: '100%' }}>
+              <IconButton
+                onClick={() => handleImageClick(image.url)}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  padding: 0,
+                }}
+              >
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '20px',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <img
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                    src={image.url}
+                    alt={products.heading}
+                  />
+                </div>
+             
+              </IconButton>
+            </div>
+          </Box>
+        ))}
+      </Box>
+    );
+  };
+
+
+  const RenderOutImages = () => {
+    const array = products.photos;
+  
+    const handleImageClick = (url) => {
+      window.open(url, '_blank');
+    };
+  
+    return (
+      <Box display="flex" flexWrap="wrap" justifyContent="start">
+        {array.map((image, index) => (
+          <Box key={index} m={1} style={{ width: '150px' }}>
+            <div style={{ position: 'relative', paddingTop: '100%' }}>
+              <IconButton
+                onClick={() => handleImageClick(image.url)}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  padding: 0,
+                }}
+              >
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: 10,
+                    borderColor: 'orange',
+                    borderWidth: 10,
+                    overflow: 'hidden',
+                  }}
+                >
+                  <img
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                    src={image.url}
+                    alt={products.heading}
+                  />
+                </div>
+             
+              </IconButton>
+            </div>
+          </Box>
+        ))}
+      </Box>
+    );
+  };
 
   return (
     <>
@@ -75,7 +207,32 @@ console.log(products);
 
         <Stack>
             <List>
-            <ListItem>
+ <Stack style={{
+            margin: 15, marginBottom: 50
+          }} justifyContent={"space-evenly"} direction="row" alignItems="center">
+ <RenderOutImages/>
+ <RenderOutPlans/>
+
+ </Stack>
+
+ <Stack style={{
+            margin: 5
+          }} justifyContent={"space-evenly"} direction="row" alignItems="center">
+ <RenderOutVideos/>
+
+ </Stack>
+
+                </List>
+        </Stack>
+
+
+        <Stack style={{
+            margin: 5
+          }} justifyContent={"space-evenly"} direction="row" alignItems="center">
+
+
+<Stack>
+<ListItem>
             <ListItemText
               primary={
                 <>
@@ -137,13 +294,37 @@ console.log(products);
                   </Typography>
                 
                   <Typography>
-                   {products.streetname} : {products.streetnumber}
+                   {products.streetname}
                   </Typography>
                 </>
               }
             />
           </ListItem>
           <Divider />
+
+
+</Stack>
+
+<Stack>
+
+
+          <ListItem>
+            <ListItemText
+              primary={
+                <>
+                  <Typography variant="subtitle1" component="span" fontWeight="bold">
+                    Other:
+                  </Typography>
+                
+                  <Typography>
+                   {products.others}
+                  </Typography>
+                </>
+              }
+            />
+          </ListItem>
+          <Divider />
+
 
           <ListItem>
             <ListItemText
@@ -168,18 +349,34 @@ console.log(products);
               primary={
                 <>
                   <Typography variant="subtitle1" component="span" fontWeight="bold">
-                    Description:
+                    Bedrooms:
                   </Typography>
                 
                   <Typography>
-                   {products.description}
+                  {products.bedrooms}
                   </Typography>
                 </>
               }
             />
           </ListItem>
           <Divider />
-
+  
+<ListItem>
+            <ListItemText
+              primary={
+                <>
+                  <Typography variant="subtitle1" component="span" fontWeight="bold">
+                    Washrooms:
+                  </Typography>
+                
+                  <Typography>
+                  {products.washrooms}
+                  </Typography>
+                </>
+              }
+            />
+          </ListItem>
+          <Divider />
 
           <ListItem>
             <ListItemText
@@ -214,73 +411,15 @@ console.log(products);
               }
             />
           </ListItem>
-          <Divider />
-          <Stack style={{
-            marginTop: 20
-          }} direction="row" alignItems="center" justifyContent="space-between">
+          <Divider /> 
 
- <ListItem>
-  <ListItemText
-    primary={
-      <>
-        <Grid container spacing={2}>
-            <Grid>
-              <img src={products.photos[0].url} alt={products.heading} width="400" height="400" />
-            </Grid>
-        </Grid>
-      </>
-    }
-  />
-</ListItem>
+</Stack>
 
-<ListItem>
-  <ListItemText
-    primary={
-      <>
-        <Grid container spacing={2}>
-            <Grid>
-              <img src={products.plans[0].url} alt={products.heading} width="400" height="400" />
-            </Grid>
-        </Grid>
-      </>
-    }
-  />
-</ListItem>
-<Divider />
+          
 
+            </Stack>
 
-<ListItem>
-  <ListItemText
-    primary={
-      <>
-        <Grid container spacing={2}>
-            <Grid>
-            <video width="100%" controls>
-                <source src={products.videos[0].url}  />
-                {/* Add a track element for captions */}
-                <track kind="captions" srcLang="en" label="English" />
-              </video>
-            </Grid>
-        </Grid>
-      </>
-    }
-  />
-</ListItem>
-<Divider />
-
-
-
-
-
- </Stack>
-
-
-
-
-
-
-                </List>
-        </Stack>
+       
     
       </Container>
     </>

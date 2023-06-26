@@ -75,10 +75,10 @@ export default function AgentsProfiles() {
           </Stack>
         </Stack>
 
-        {agentProfiles.length > 0 ? 
-                <AgentsList agents={agentProfiles} />
+        {agentProfiles.length === 0 ? 
+           <Typography variant='h6'>No Agents Found</Typography>
           :
-          <Typography variant='h6'>No Agents Found</Typography>
+          <AgentsList agents={agentProfiles} />
       }
       </Container>
     </>

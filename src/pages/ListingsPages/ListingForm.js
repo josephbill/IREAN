@@ -22,10 +22,15 @@ export default function ListingForm() {
         heading: "",
         description: "",
         price: "",
+        bedrooms: "0",
+        washrooms: "0",
+        others: "IREAN Listing",
         photos: [],
         plans: [],
         videos: [],
     });
+
+   
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -38,7 +43,8 @@ export default function ListingForm() {
     };
 
     const handleChange = (input) => (e) => {
-        setListingDetails({ ...listingDetails, [input]: e.target.value });
+      const value = e.target ? e.target.value : e; // Check if e.target exists, otherwise use e directly
+      setListingDetails({ ...listingDetails, [input]: value });
     };
 
     const handleChangeMedia = (input) => (e) => {
@@ -77,11 +83,15 @@ export default function ListingForm() {
         formData.append('listingtype', listingsDetails.listingtype);
         formData.append('proptype', listingsDetails.proptype);
         formData.append('location', listingsDetails.location);
-        formData.append('streetname', listingsDetails.streetname);
-        formData.append('streetnumber', listingsDetails.streetnumber);
+        formData.append('streetname', listingsDetails.location);
+        formData.append('streetnumber', listingsDetails.location);
         formData.append('heading', listingsDetails.heading);
         formData.append('description', listingsDetails.description);
         formData.append('price', listingsDetails.price);
+        formData.append('bedrooms', listingsDetails.bedrooms);
+        formData.append('washrooms', listingsDetails.washrooms);
+        formData.append('others', listingsDetails.others);
+
 
         // Append photos, plans, and videos
         for (let i = 0; i < listingsDetails.photos.length; i += 1) {
@@ -174,7 +184,8 @@ export default function ListingForm() {
             return (
                 <Container maxWidth="xl">
                    <div>
-        <Typography variant="h6">Listing Details:</Typography>
+                   <LoadingButton  size="large" variant="contained" onClick={handleSubmit}>Submit Details</LoadingButton>
+        {isLoading ? <LoadingSpinner /> : null}
         <List>
           <ListItem>
             <ListItemText
@@ -230,8 +241,22 @@ export default function ListingForm() {
                   </Typography>
                   <Typography>
                   {listingDetails.description}
-
                   </Typography>
+                  <Typography variant="subtitle1" component="span" fontWeight="bold">
+                    ...:
+                  </Typography>
+                  <Typography>
+                  {listingDetails.others}
+                  </Typography>
+
+                  <Typography style={{marginRight: 5}} variant="subtitle1" component="span" color={'blue'}>
+                    Bedrooms: {listingDetails.bedrooms}
+                  </Typography>
+                  
+                  <Typography variant="subtitle1" color={'blue'} component="span">
+                    Washrooms:  {listingDetails.washrooms}
+                  </Typography>
+               
                 </>
               }
             />
@@ -260,7 +285,7 @@ export default function ListingForm() {
                   <Typography variant="subtitle1" component="span" fontWeight="bold">
                     Street Name:
                   </Typography>
-                  <Typography> {listingDetails.streetname}</Typography>
+                  <Typography> {listingDetails.location}</Typography>
                  
                 </>
               }
@@ -275,7 +300,7 @@ export default function ListingForm() {
                     Street Number:
                   </Typography>
                   <Typography>
-                  {listingDetails.streetnumber}
+                  {listingDetails.location}
                   </Typography>
                 </>
               }
@@ -311,7 +336,9 @@ export default function ListingForm() {
         <Grid container spacing={2}>
           {listingDetails.photos.map((photo, index) => (
             <Grid item key={index}>
-              <img src={URL.createObjectURL(photo)} alt={`IREAN ${index}`} width="100" />
+              <img style={{
+                borderRadius: 20
+              }}  src={URL.createObjectURL(photo)} alt={`IREAN ${index}`} width="100" height="100" />
             </Grid>
           ))}
         </Grid>
@@ -331,9 +358,11 @@ export default function ListingForm() {
         </Typography>
         <Grid container spacing={2}>
           {listingDetails.plans.map((plan, index) => (
-            <Grid item key={index}>
-              <img src={URL.createObjectURL(plan)} alt={`Plan ${index}`} width="100" />
-            </Grid>
+             <Grid item key={index}>
+             <img style={{
+               borderRadius: 20
+             }}  src={URL.createObjectURL(plan)} alt={`Plan ${index}`} width="100" height="100" />
+           </Grid>
           ))}
         </Grid>
       </>
@@ -353,7 +382,7 @@ export default function ListingForm() {
         <Grid container spacing={2}>
           {listingDetails.videos.map((video, index) => (
             <Grid item key={index}>
-              <video width="300" controls>
+              <video  style={{width: 550, height: 200, borderRadius: 20}} controls>
                 <source src={URL.createObjectURL(video)} type={video.type} />
                 {/* Add a track element for captions */}
                 <track kind="captions" srcLang="en" label="English" />
@@ -371,8 +400,7 @@ export default function ListingForm() {
           
         </List>
       </div>  
-        <LoadingButton fullWidth size="large" variant="contained" onClick={handleSubmit}>Submit Details</LoadingButton>
-        {isLoading ? <LoadingSpinner /> : null}
+  
 
                 </Container>
             );
