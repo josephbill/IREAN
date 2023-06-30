@@ -119,6 +119,10 @@ export default function ListingForm() {
                 body: formData
             });
 
+
+            console.log(response)
+            alert(JSON.stringify(response))
+
             if (response.status === "created") {
                 // Handle success
                 console.log('Listing created successfully');

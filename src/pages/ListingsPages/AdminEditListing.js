@@ -3,11 +3,31 @@
 import { Helmet } from 'react-helmet-async';
 import { useState,useRef, useEffect } from 'react';
 import { useNavigate,useLocation } from 'react-router-dom';
-import { Link, Stack, IconButton, InputAdornment, Container,TextField, Checkbox, Select,Button, MenuItem ,Typography} from '@mui/material';
+import { ListingItemText, Stack, IconButton, InputAdornment,ListItemText, OutlinedInput, Container,TextField, Checkbox, Select,Button, MenuItem ,Typography} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import Iconify from '../../components/iconify/Iconify';
 import LoadingSpinner from '../../utils/loadingSpinner';
 // components
+
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const paymentLevel = [
+  'Diamond',
+  'Platinum',
+  'Gold'
+];
+
+
 
 export default function AdminEditListing() {
 
@@ -19,6 +39,30 @@ export default function AdminEditListing() {
     const [selectedAgents, setSelectedAgents] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [realEstateAgents, setAgents] = useState([]);
+    const [agentGroup, setAgentGroup] = useState([]);
+    const [paymentGroup, setPaymentGroup] = useState([]);
+
+    const handleChangeGroup = (event) => {
+      const {
+        target: { value },
+      } = event;
+      setAgentGroup(
+        // On autofill we get a stringified value.
+        typeof value === 'string' ? value.split(',') : value,
+      );
+
+    };
+
+    const handleChangePayment = (event) => {
+      const {
+        target: { value },
+      } = event;
+      setPaymentGroup(
+        // On autofill we get a stringified value.
+        typeof value === 'string' ? value.split(',') : value,
+      );
+
+    };
 
     let userTwo = []
     const products = location.state?.products;
@@ -111,8 +155,7 @@ const updateListing = async (leadStatus,verification,updateproducts) => {
   const updateData = {
     leadstatus: leadStatus,
     verifiedstatus: verification,
-    agent_id: selectedAgents,
-    prospects: "prospectsArray"
+    listing_attachments: agentGroup,
   };
 
   try {
@@ -204,7 +247,7 @@ return (
 
       {realEstateAgents.length > 0 && ( // Render the select component when userTwo has data
       <>
-            <Typography>Attach agent to listing</Typography>
+            {/* <Typography>Attach agent to listing</Typography>
         <Select
           labelId="listing-agent-label"
           id="agent-id"
@@ -218,8 +261,59 @@ return (
           {realEstateAgents === []&& (
              <Typography>Unverified Agents</Typography>
           )} 
-        </Select>
+        </Select> */}
+
+        <Typography variant='h6'>Attach agent to listing</Typography>
+        <Select
+          labelId="demo-multiple-checkbox-label"
+          id="demo-multiple-checkbox"
+          multiple
+          value={agentGroup}
+          // style={{
+          //   color: 'white'
+          // }}
+          onChange={handleChangeGroup}
+          input={<OutlinedInput label="Tag" />}
+          renderValue={(selected) => selected.join(', ')}
+          MenuProps={MenuProps}
+        >
+
+          {realEstateAgents.map((name) => (
+            <MenuItem key={name.id} value={name.id}>
+                 <Checkbox checked={agentGroup.indexOf(name.id) > -1}/>
+                 <ListItemText primary={name.username}/>
+            </MenuItem>
+          ))}
+
+          </Select>
+
+          
+          {/* <Typography variant='h6'>Attach Agent Group to Listing.</Typography>
+        <Select
+          labelId="demo-multiple-checkbox-label2"
+          id="demo-multiple-checkbox2"
+          multiple
+          value={paymentGroup}
+          // style={{
+          //   color: 'white'
+          // }}
+          onChange={handleChangePayment}
+          input={<OutlinedInput label="Tag" />}
+          renderValue={(selected) => selected.join(', ')}
+          MenuProps={MenuProps}
+        >
+
+          {paymentLevel.map((name) => (
+            <MenuItem key={name} value={name}>
+                 <Checkbox checked={paymentGroup.indexOf(name) > -1}/>
+                 <ListItemText primary={name}/>
+            </MenuItem>
+          ))}
+
+          </Select> */}
       </>
+
+      
            
       )}
 

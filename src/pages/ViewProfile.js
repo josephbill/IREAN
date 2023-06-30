@@ -41,7 +41,19 @@ export default function ViewProfile() {
             },
           }).then(response => response.json()) 
           .then(data => {
-              savetoState(data.user.profile)
+            console.log(JSON.stringify(data))
+
+            
+      if (data && data.user && data.user.profile) {
+        // The data.user.profile exists, save it to the state
+        savetoState(data.user.profile);
+      } else {
+        // The data.user.profile does not exist
+        // Handle the absence of the profile data accordingly
+        alert("Create Profile First")
+        navigate('/dashboard/profilepage')
+      }
+
           
           })
       };

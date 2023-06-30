@@ -321,6 +321,7 @@ setNewUserArray(profileDetails)
         const updatedListing = await response.json();
         console.log(updatedListing)
         alert("Verification Updated.")
+        localStorage.setItem("verification","1")
         navigate('/dashboard/app')
   
       } else {
@@ -328,6 +329,8 @@ setNewUserArray(profileDetails)
         const errorData = await response.json();
         console.log(errorData);
         alert("Error occurred on update.")
+        localStorage.setItem("verification","1")
+
         navigate('/dashboard/app')
       }
     } catch (error) {

@@ -30,7 +30,7 @@ export default function ProductList({other}) {
             });
             const data = await response.json();
             // populateListingsArrays(data.lisitings);
-            populateListingsArrays(data.listings)
+           populateListingsArrays(data.listings)
       
           } catch (error) {
             console.log('API error:', error);
@@ -40,19 +40,18 @@ export default function ProductList({other}) {
   
   }, [])
   
-    const populateListingsArrays = (data) => {
-      const userrole = localStorage.getItem("userrole");
-      const userid = localStorage.getItem("userid");
-      if (userrole === "2") {
-        const agentArray = data.filter(obj => String(obj.agent_id) === String(userid));
-        setProducts(agentArray);
-    
-      } else {
-        const agentArray = data;
-        setProducts(agentArray);
-      
-      }
+  const populateListingsArrays = (data) => {
+    const userrole = localStorage.getItem("userrole");
+    const userid = localStorage.getItem("userid");
+    if (userrole === "2") {
+      const x = parseInt(userid, 10);
+      const agentArray = data.filter(obj => obj.listing_attachments.includes(x));   
+      console.log(JSON.stringify(agentArray));
+      setProducts(agentArray);
+    } else {
+      setProducts(data);
     }
+  }
 
 
   

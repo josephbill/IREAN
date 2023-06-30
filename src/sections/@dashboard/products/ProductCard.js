@@ -112,7 +112,7 @@ export default function ShopProductCard({ product }) {
          <StyledProductImg src="../../../../assets/images/avatars/notverified.png" alt="notverified" />
             </IconButton>
         }
-       {verifiedstatus === 0 && 
+       {verifiedstatus === "0" && 
            <IconButton
            onClick={goToEdits}
            style={{
@@ -124,7 +124,7 @@ export default function ShopProductCard({ product }) {
          </IconButton>
         }
 
-{verifiedstatus === 1 && 
+{verifiedstatus === "1" && 
            <IconButton
            onClick={goToEdits}
            style={{
@@ -163,7 +163,7 @@ export default function ShopProductCard({ product }) {
 
         </Stack>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-        {product.agent_id !== null && 
+        {product.listing_attachments.length > 0 && 
            <IconButton
            onClick={goToEdits}
            >

@@ -226,12 +226,9 @@ console.log(products);
         </Stack>
 
 
-        <Stack style={{
-            margin: 5
-          }} justifyContent={"space-evenly"} direction="row" alignItems="center">
+        <Stack>
 
 
-<Stack>
 <ListItem>
             <ListItemText
               primary={
@@ -283,8 +280,6 @@ console.log(products);
             />
           </ListItem>
           <Divider />
-
-
           <ListItem>
             <ListItemText
               primary={
@@ -301,13 +296,6 @@ console.log(products);
             />
           </ListItem>
           <Divider />
-
-
-</Stack>
-
-<Stack>
-
-
           <ListItem>
             <ListItemText
               primary={
@@ -417,7 +405,7 @@ console.log(products);
 
           
 
-            </Stack>
+            
 
        
     
