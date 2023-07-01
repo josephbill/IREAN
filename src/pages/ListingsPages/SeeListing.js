@@ -184,7 +184,27 @@ console.log(products);
           >
             Back to Listings
           </Button>
-
+          {userrole === "0" &&
+            <Button variant="contained" color='success' startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => navigate(`/prospectproduct/${products.id}`,{state: {products}})}
+          >
+            Listings Prospects 
+          </Button>
+          }
+             {userrole === "4" &&
+            <Button variant="contained" color='success' startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => navigate(`/prospectproduct/${products.id}`,{state: {products}})}
+          >
+            Sales Prospects 
+          </Button>
+          }
+            {userrole === "2" &&
+            <Button variant="contained" color='success' startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => navigate(`/prospectproduct/${products.id}`,{state: {products}})}
+          >
+           Listings Prospects 
+          </Button>
+          }
           {userrole === "0"  &&
             <Button variant="contained" color='orange' startIcon={<Iconify icon="eva:plus-fill" />}
             onClick={() => navigate(`/modifyproduct/${products.id}`,{state: {products}})}

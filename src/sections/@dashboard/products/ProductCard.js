@@ -36,6 +36,8 @@ export default function ShopProductCard({ product }) {
   console.log(product)
   const products = product
 
+  const userrole = localStorage.getItem("userrole")
+
   const handleSeeMore = () => {
     navigate(`/product/${id}`, { state: { products } }); // Navigate to new route with product details
   };
@@ -100,7 +102,22 @@ export default function ShopProductCard({ product }) {
             View Listing
           </Button>
         </Stack>
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
+        {userrole === "0" &&  <Button variant="contained" color='success' startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => navigate(`/prospectproduct/${products.id}`,{state: {products}})}
+          >
+            Listings Prospects 
+          </Button>}
+          {userrole === "4" &&  <Button variant="contained" color='success' startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => navigate(`/prospectproduct/${products.id}`,{state: {products}})}
+          >
+            Listings Prospects 
+          </Button>}
+          {userrole === "2" &&  <Button variant="contained" color='success' startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => navigate(`/prospectproduct/${products.id}`,{state: {products}})}
+          >
+            Listings Prospects 
+          </Button>}
+        <Stack alignItems="center" justifyContent="space-between">
         {verifiedstatus === null && 
               <IconButton
               onClick={goToEdits}
@@ -120,7 +137,7 @@ export default function ShopProductCard({ product }) {
             height: 30,
            }}
            >
-      <StyledProductImg src="../../../../assets/images/avatars/notverified.png" alt="notverified" />
+              <span style={{ fontSize: 15, color: 'blue' }}>Not verified</span>
          </IconButton>
         }
 
@@ -132,7 +149,7 @@ export default function ShopProductCard({ product }) {
             height: 30,
            }}
            >
-      <StyledProductImg src="../../../../assets/images/avatars/verified.png" alt="verified" />
+              <span style={{ fontSize: 15, color: 'blue' }}>Verified</span>
          </IconButton>
         }
 
@@ -142,21 +159,21 @@ export default function ShopProductCard({ product }) {
              <IconButton
              onClick={goToEdits}  
              >
-              <span style={{ fontSize: 20, color: 'red' }}>Hot Listing</span>
+              <span style={{ fontSize: 15, color: 'red' }}>Hot Listing</span>
            </IconButton>
         }
         {leadstatus === "Warm" && 
            <IconButton
            onClick={goToEdits}
            >
-            <span style={{ fontSize: 20, color: '#7E57C2' }}>Warm Listing</span>
+            <span style={{ fontSize: 15, color: '#7E57C2' }}>Warm Listing</span>
          </IconButton>
         }
         {leadstatus === "Cold" && 
            <IconButton
            onClick={goToEdits}
            >
-            <span style={{ fontSize: 20, color: '#42A5F5' }}>Cold Listing</span>
+            <span style={{ fontSize: 15, color: '#42A5F5' }}>Cold Listing</span>
          </IconButton>
         }
       
@@ -168,6 +185,7 @@ export default function ShopProductCard({ product }) {
            onClick={goToEdits}
            >
       <StyledProductImg src="../../../../assets/images/avatars/realagents.png" alt="verified" />
+
          </IconButton>
         }
         </Stack>

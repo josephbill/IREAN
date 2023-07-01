@@ -330,7 +330,6 @@ setNewUserArray(profileDetails)
         console.log(errorData);
         alert("Error occurred on update.")
         localStorage.setItem("verification","1")
-
         navigate('/dashboard/app')
       }
     } catch (error) {

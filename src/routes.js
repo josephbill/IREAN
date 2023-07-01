@@ -19,6 +19,9 @@ import UpdateProfile from './pages/UpdateProfile';
 import SeeListing from './pages/ListingsPages/SeeListing';
 import AdminEditListing from './pages/ListingsPages/AdminEditListing';
 import AgentsProfiles from './pages/AgentsPages/AgentsProfile';
+import ProspectProfile from './pages/ListingsPages/ProspectProfile';
+import AllProspects from './pages/ListingsPages/AllProspects';
+import EditProspect from './pages/ListingsPages/EditProspect';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -52,6 +55,21 @@ export default function Router() {
        path: '/product/:id', element: <SeeListing /> 
 
     },
+    {
+      path: '/prospectproduct/:id', element: <ProspectProfile/> 
+
+   },
+
+   {
+    path: '/editprospect/:id', element: <EditProspect/> 
+
+ },
+
+   {
+    path: '/allprospects/:id', element: <AllProspects/> 
+
+ },
+
     {
       path: '/modifyproduct/:id', element: <AdminEditListing/>
     },
