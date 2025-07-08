@@ -29,7 +29,7 @@ export default function Router() {
   const routes = useRoutes([
     {
       path: 'login',
-      element: <LoginPage />,
+      element: <UserPage />,
     },
     {
       path: '/dashboard',
